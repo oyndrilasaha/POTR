@@ -1214,6 +1214,2179 @@ const INITIAL_EMPLOYEES = [
 ];
 
 // Standard availability skeleton helper
+const POTR_HISTORICAL_SEED = {
+  "employees": [
+    {
+      "id": "100",
+      "fullName": "AWAL, Shubekshya",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "AWAL, Shubekshya",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "101",
+      "fullName": "BHATTARAI, Abisekh",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "BHATTARAI, Abisekh",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "102",
+      "fullName": "B.K, Sanjay",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "B.K, Sanjay",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "103",
+      "fullName": "BOSC, Melissa",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "BOSC, Melissa",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "2",
+      "fullName": "BUTTERS, Gary",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 29.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "104",
+      "fullName": "CHAULAGAIN, Unisha",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "CHAULAGAIN, Unisha",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "4",
+      "fullName": "DALSANIYA, Vismay",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.97,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "5",
+      "fullName": "DUTTA Pinake",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 45.55,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "7",
+      "fullName": "FAN, Yong (Richard)",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 29.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "8",
+      "fullName": "FEIGE, Oliver",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 18.51,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "105",
+      "fullName": "FERNANDES,  Delisha",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "FERNANDES,  Delisha",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 39.48,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "9",
+      "fullName": "GAUCHAN, Bibek",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "10",
+      "fullName": "GAUCHAN, Roshani",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "106",
+      "fullName": "JAHAN, Nusrat",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "JAHAN, Nusrat",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "18",
+      "fullName": "KC Anisha",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.97,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "19",
+      "fullName": "KC Sulav",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "20",
+      "fullName": "KHATRI, Sanjay",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "24",
+      "fullName": "MAHMUD M M Ferdous",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "107",
+      "fullName": "MAJOHR, Jolie",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "MAJOHR, Jolie",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "25",
+      "fullName": "MALLA, Kajal",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "108",
+      "fullName": "RAHMAN, Mahinur",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "RAHMAN, Mahinur",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "28",
+      "fullName": "SAHA, Oyndrilla",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 29.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "29",
+      "fullName": "SAIYED, Wasim",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 36.81,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "30",
+      "fullName": "SAMIT, Satwat Hossain",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.97,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "32",
+      "fullName": "SHIWAKOTI, Rojal",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 29.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "109",
+      "fullName": "SHRESTHA, Anish",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "SHRESTHA, Anish",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "33",
+      "fullName": "SHRESTHA, Nikita",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "34",
+      "fullName": "SHRESTHA Rojan",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "36",
+      "fullName": "TAMANG, Chandraman",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.97,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "110",
+      "fullName": "TAMANG, Prajwol",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "012-345",
+        "accountNumber": "12345678",
+        "accountName": "TAMANG, Prajwol",
+        "institution": "CBA",
+        "branch": "Sydney"
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.08,
+      "onboarding": {
+        "covenant": true,
+        "taxDec": true,
+        "offerLetter": true,
+        "rightToWorkCheck": true
+      }
+    },
+    {
+      "id": "37",
+      "fullName": "THAPALIYA, Sirish",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.97,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "38",
+      "fullName": "TIRTHO, Rafid Mahmud",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 27.97,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "1",
+      "fullName": "Baniya, Bijusha",
+      "position": "Guest Assistant",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 28.12,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "3",
+      "fullName": "Christie, Katherine",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 26.7,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "6",
+      "fullName": "Eskander, Hafsa",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "11",
+      "fullName": "Gurung, Ashma",
+      "position": "Guest Assistant",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 28.12,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "12",
+      "fullName": "Gurung, Rajan",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "13",
+      "fullName": "Gyawali, Salina",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 26.7,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "14",
+      "fullName": "He, Ya Ting (Rey)",
+      "position": "Shift Supervisor",
+      "grade": "Grade 3",
+      "status": "Full-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 37.45,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "15",
+      "fullName": "Hossain, MD Sanjid",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "16",
+      "fullName": "Isti, Imtiaz Shahriar",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "17",
+      "fullName": "Karki, Bishal",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 26.7,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "21",
+      "fullName": "Kim, Jaeyoung",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "22",
+      "fullName": "Kim, Subin",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "23",
+      "fullName": "Maharjan Manoj",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "26",
+      "fullName": "Raza, Mohd",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 25.85,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "27",
+      "fullName": "Rueksawang, Vorakarn",
+      "position": "Guest Assistant",
+      "grade": "Grade 2",
+      "status": "Part-time",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 28.12,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "31",
+      "fullName": "Sapkota, Sanam",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 28.12,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "35",
+      "fullName": "Sultana, Tania",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 26.7,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    },
+    {
+      "id": "39",
+      "fullName": "Wagle Khatri, Sabina",
+      "position": "Guest Assistant",
+      "grade": "Grade 1",
+      "status": "Casual",
+      "startDate": "2024-01-01",
+      "tfn": "",
+      "bankDetails": {
+        "bsb": "",
+        "accountNumber": "",
+        "accountName": "",
+        "institution": "",
+        "branch": ""
+      },
+      "superannuation": {
+        "fundName": "",
+        "memberNumber": ""
+      },
+      "availabilities": {},
+      "rightToWork": {
+        "isCitizen": true
+      },
+      "baseRate": 26.7,
+      "onboarding": {
+        "covenant": false,
+        "taxDec": false,
+        "offerLetter": false,
+        "rightToWorkCheck": false
+      }
+    }
+  ],
+  "timecards": {
+    "2026-08-10": [
+      {
+        "employeeId": "100",
+        "override": true,
+        "overrideData": {
+          "ord": 12.5,
+          "c125": 9.75,
+          "c150": 3.25,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.04,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "101",
+        "override": true,
+        "overrideData": {
+          "ord": 10.5,
+          "c125": 5.0,
+          "c150": 7.5,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.01,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "102",
+        "override": true,
+        "overrideData": {
+          "ord": 19.0,
+          "c125": 10.0,
+          "c150": 7.5,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.04,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 11
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "103",
+        "override": true,
+        "overrideData": {
+          "ord": 20.0,
+          "c125": 5.0,
+          "c150": 4.75,
+          "c200": 4.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 22
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "2",
+        "override": true,
+        "overrideData": {
+          "ord": 21.5,
+          "c125": 8.0,
+          "c150": 7.5,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.02,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 45,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "104",
+        "override": true,
+        "overrideData": {
+          "ord": 7.75,
+          "c125": 8.0,
+          "c150": 7.25,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.02,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "4",
+        "override": true,
+        "overrideData": {
+          "ord": 28.0,
+          "c125": 7.5,
+          "c150": 5.0,
+          "c200": 0.5,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "5",
+        "override": true,
+        "overrideData": {
+          "ord": 43.5,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "7",
+        "override": true,
+        "overrideData": {
+          "ord": 0.0,
+          "c125": 4.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.01,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 1,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "8",
+        "override": true,
+        "overrideData": {
+          "ord": 0.0,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 0,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "105",
+        "override": true,
+        "overrideData": {
+          "ord": 39.25,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "9",
+        "override": true,
+        "overrideData": {
+          "ord": 38.0,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "10",
+        "override": true,
+        "overrideData": {
+          "ord": 38.0,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "106",
+        "override": true,
+        "overrideData": {
+          "ord": 14.0,
+          "c125": 5.0,
+          "c150": 5.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.01,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "18",
+        "override": true,
+        "overrideData": {
+          "ord": 24.0,
+          "c125": 8.0,
+          "c150": 8.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "19",
+        "override": true,
+        "overrideData": {
+          "ord": 44.25,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "20",
+        "override": true,
+        "overrideData": {
+          "ord": 38.0,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "24",
+        "override": true,
+        "overrideData": {
+          "ord": 35.75,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 2.25,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "107",
+        "override": true,
+        "overrideData": {
+          "ord": 10.0,
+          "c125": 5.0,
+          "c150": 5.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 11
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "25",
+        "override": true,
+        "overrideData": {
+          "ord": 27.5,
+          "c125": 8.5,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 11
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "108",
+        "override": true,
+        "overrideData": {
+          "ord": 0.0,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 0,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "28",
+        "override": true,
+        "overrideData": {
+          "ord": 0.5,
+          "c125": 5.5,
+          "c150": 9.5,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 8.0,
+          "annual": 0.0,
+          "laundryCount": 2,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "29",
+        "override": true,
+        "overrideData": {
+          "ord": 38.0,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "30",
+        "override": true,
+        "overrideData": {
+          "ord": 22.0,
+          "c125": 7.0,
+          "c150": 8.5,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "32",
+        "override": true,
+        "overrideData": {
+          "ord": 7.0,
+          "c125": 10.0,
+          "c150": 5.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.02,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 11
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "109",
+        "override": true,
+        "overrideData": {
+          "ord": 18.5,
+          "c125": 5.0,
+          "c150": 5.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "33",
+        "override": true,
+        "overrideData": {
+          "ord": 39.5,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "34",
+        "override": true,
+        "overrideData": {
+          "ord": 27.0,
+          "c125": 0.0,
+          "c150": 0.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 11.0,
+          "laundryCount": 15,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "36",
+        "override": true,
+        "overrideData": {
+          "ord": 0.0,
+          "c125": 12.0,
+          "c150": 5.5,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.02,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "110",
+        "override": true,
+        "overrideData": {
+          "ord": 15.0,
+          "c125": 5.0,
+          "c150": 5.0,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.02,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "37",
+        "override": true,
+        "overrideData": {
+          "ord": 0.0,
+          "c125": 15.0,
+          "c150": 7.25,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.0,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      },
+      {
+        "employeeId": "38",
+        "override": true,
+        "overrideData": {
+          "ord": 18.0,
+          "c125": 7.5,
+          "c150": 7.5,
+          "c200": 0.0,
+          "c250": 0.0,
+          "night": 0.02,
+          "sick": 0.0,
+          "annual": 0.0,
+          "laundryCount": 3,
+          "supervisorCount": 0,
+          "splitCount": 0
+        },
+        "shifts": {}
+      }
+    ]
+  },
+  "rosters": {
+    "2026-08-10": {
+      "100": 25.5,
+      "101": 23.0,
+      "102": 36.5,
+      "103": 29.75,
+      "2": 37.0,
+      "104": 23.0,
+      "4": 40.5,
+      "5": 43.5,
+      "7": 4.0,
+      "8": 0.0,
+      "105": 39.25,
+      "9": 38.0,
+      "10": 38.0,
+      "106": 24.0,
+      "18": 40.0,
+      "19": 44.25,
+      "20": 38.0,
+      "24": 35.75,
+      "107": 20.0,
+      "25": 36.0,
+      "108": 0.0,
+      "28": 15.5,
+      "29": 38.0,
+      "30": 37.5,
+      "32": 22.0,
+      "109": 28.5,
+      "33": 39.5,
+      "34": 27.0,
+      "36": 17.5,
+      "110": 25.0,
+      "37": 22.25,
+      "38": 33.0
+    }
+  },
+  "adjustments": [
+    {
+      "name": "KCSulav",
+      "adjustment": "Cashing out 38 Hours Annual Leave. Form is with Paperwork."
+    }
+  ],
+  "metrics": {
+    "2026-08-10": {
+      "receipts": 153447.19,
+      "trueSales": 139497.45,
+      "guests": 5776
+    }
+  }
+};
+
 const createDefaultAvailability = () => {
   const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
   const availability = {};
@@ -1460,6 +3633,51 @@ const SafeIcon = ({ name, ...props }) => {
 };
 
 // Main App Component
+
+// Auto-seed historical week ending 2026-08-10 if not present in local storage
+const seedHistoricalData = () => {
+  let emps = localStorage.getItem('potr_employees');
+  let tcs = localStorage.getItem('potr_timecards');
+  let rsts = localStorage.getItem('potr_rosters');
+  let adjs = localStorage.getItem('potr_adjustments');
+  let weeklyMetrics = localStorage.getItem('potr_weekly_metrics');
+
+  let employeesList = emps ? JSON.parse(emps) : [];
+  POTR_HISTORICAL_SEED.employees.forEach(se => {
+    if (!employeesList.some(e => e.fullName.toLowerCase() === se.fullName.toLowerCase())) {
+      employeesList.push(se);
+    }
+  });
+  localStorage.setItem('potr_employees', JSON.stringify(employeesList));
+
+  let timecardsMap = tcs ? JSON.parse(tcs) : {};
+  if (!timecardsMap["2026-08-10"]) {
+    timecardsMap["2026-08-10"] = POTR_HISTORICAL_SEED.timecards["2026-08-10"];
+    localStorage.setItem('potr_timecards', JSON.stringify(timecardsMap));
+  }
+
+  let rostersMap = rsts ? JSON.parse(rsts) : {};
+  if (!rostersMap["2026-08-10"]) {
+    rostersMap["2026-08-10"] = POTR_HISTORICAL_SEED.rosters["2026-08-10"];
+    localStorage.setItem('potr_rosters', JSON.stringify(rostersMap));
+  }
+
+  let adjustmentsList = adjs ? JSON.parse(adjs) : [];
+  POTR_HISTORICAL_SEED.adjustments.forEach(sa => {
+    if (!adjustmentsList.some(a => a.name === sa.name && a.adjustment === sa.adjustment)) {
+      adjustmentsList.push(sa);
+    }
+  });
+  localStorage.setItem('potr_adjustments', JSON.stringify(adjustmentsList));
+
+  let metricsMap = weeklyMetrics ? JSON.parse(weeklyMetrics) : {};
+  if (!metricsMap["2026-08-10"]) {
+    metricsMap["2026-08-10"] = POTR_HISTORICAL_SEED.metrics["2026-08-10"];
+    localStorage.setItem('potr_weekly_metrics', JSON.stringify(metricsMap));
+  }
+};
+seedHistoricalData();
+
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [employees, setEmployees] = useState([]);
@@ -1497,12 +3715,70 @@ function App() {
   const [currentWeekEnding, setCurrentWeekEnding] = useState('2010-01-05'); // Defaults to the Adam Smith week ending date
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('37'); // Default to Adam Smith
   const [activeSheetTab, setActiveSheetTab] = useState('calculation');
+  const [kioskMode, setKioskMode] = useState(false);
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [pinInput, setPinInput] = useState('');
+  const [pinError, setPinError] = useState(false);
+  const [weeklyMetrics, setWeeklyMetrics] = useState(() => {
+    const data = localStorage.getItem('potr_weekly_metrics');
+    return data ? JSON.parse(data) : {};
+  });
+  const [rosterPlanner, setRosterPlanner] = useState(() => {
+    const data = localStorage.getItem('potr_roster_planner');
+    return data ? JSON.parse(data) : {};
+  });
 
   const [leaveBalances, setLeaveBalances] = useState({});
   const [rosterComments, setRosterComments] = useState({});
+
+  const handleSaveWeeklyMetrics = (week, metrics) => {
+    const updated = {
+      ...weeklyMetrics,
+      [week]: metrics
+    };
+    setWeeklyMetrics(updated);
+    localStorage.setItem('potr_weekly_metrics', JSON.stringify(updated));
+  };
+
+  const handleSaveRosterPlanner = (week, plannerData) => {
+    const updated = {
+      ...rosterPlanner,
+      [week]: plannerData
+    };
+    setRosterPlanner(updated);
+    localStorage.setItem('potr_roster_planner', JSON.stringify(updated));
+  };
   const [lockedWeeks, setLockedWeeks] = useState(() => {
     return JSON.parse(localStorage.getItem('potr_locked_weeks') || '[]');
   });
+
+  const getWeeklyRostersData = () => {
+    const manualRosters = rosters[currentWeekEnding] || {};
+    const plannerWeek = rosterPlanner[currentWeekEnding] || {};
+    const computedRosters = { ...manualRosters };
+    
+    employees.forEach(emp => {
+      const empPlanner = plannerWeek[emp.id] || {};
+      const shiftDays = ['tue', 'wed', 'thu', 'fri', 'sat', 'sun', 'mon'];
+      let plannedHrs = 0;
+      let hasPlanned = false;
+      shiftDays.forEach(day => {
+        const sh = empPlanner[day];
+        if (sh && sh.active) {
+          hasPlanned = true;
+          const s = new Date(`2000-01-01T${sh.start}`);
+          let e = new Date(`2000-01-01T${sh.end}`);
+          if (e < s) e = new Date(`2000-01-02T${sh.end}`);
+          const diff = (e - s) / (1000 * 60 * 60) - (sh.breakMinutes || 0) / 60;
+          plannedHrs += Math.max(0, diff);
+        }
+      });
+      if (hasPlanned) {
+        computedRosters[emp.id] = plannedHrs;
+      }
+    });
+    return computedRosters;
+  };
 
   const handleSaveRosterComment = (empId, val) => {
     const weekComments = rosterComments[currentWeekEnding] || {};
@@ -1523,7 +3799,7 @@ function App() {
       return;
     }
 
-    const weekRoster = rosters[currentWeekEnding] || {};
+    const weekRoster = getWeeklyRostersData();
     const weekComments = rosterComments[currentWeekEnding] || {};
     let missingComment = false;
 
@@ -1621,6 +3897,25 @@ function App() {
       const card = weekCards.find(c => c.employeeId === emp.id) || {
         shifts: []
       };
+      
+      // Calculate roster hours from Roster Planner if present
+      const plannerWeek = rosterPlanner[currentWeekEnding] || {};
+      const empPlanner = plannerWeek[emp.id] || {};
+      const shiftDays = ['tue', 'wed', 'thu', 'fri', 'sat', 'sun', 'mon'];
+      let plannedHrs = 0;
+      let hasPlanned = false;
+      
+      shiftDays.forEach(day => {
+        const sh = empPlanner[day];
+        if (sh && sh.active) {
+          hasPlanned = true;
+          const s = new Date(`2000-01-01T${sh.start}`);
+          let e = new Date(`2000-01-01T${sh.end}`);
+          if (e < s) e = new Date(`2000-01-02T${sh.end}`);
+          const diff = (e - s) / (1000 * 60 * 60) - (sh.breakMinutes || 0) / 60;
+          plannedHrs += Math.max(0, diff);
+        }
+      });
       const rate = parseFloat(emp.baseRate);
       let ord = 0;
       let c125 = 0;
@@ -1863,7 +4158,7 @@ function App() {
       totalSuperannuationCost,
       leaveWarnings
     };
-  }, [employees, timecards, currentWeekEnding, calcSettings, leaveBalances]);
+  }, [employees, timecards, currentWeekEnding, calcSettings, leaveBalances, rosterPlanner]);
 
   // Save actions handlers
   const handleSaveEmployees = newEmployeesList => {
@@ -1908,164 +4203,302 @@ function App() {
     setAdjustments(newAdjustments);
     db.saveAdjustments(newAdjustments);
   };
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    className: "navbar"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "brand-container"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "brand-logo"
-  }, "P"), /*#__PURE__*/React.createElement("div", {
-    className: "brand-text"
-  }, /*#__PURE__*/React.createElement("h1", null, "POTR Payroll Pro"), /*#__PURE__*/React.createElement("p", null, "Pancakes On The Rocks"))), /*#__PURE__*/React.createElement("div", {
-    className: "nav-links"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: `nav-link ${activeTab === 'dashboard' ? 'active' : ''}`,
-    onClick: () => setActiveTab('dashboard')
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: "layout-dashboard"
-  }), " Dashboard"), /*#__PURE__*/React.createElement("div", {
-    className: `nav-link ${activeTab === 'employees' ? 'active' : ''}`,
-    onClick: () => setActiveTab('employees')
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: "users"
-  }), " Employees"), /*#__PURE__*/React.createElement("div", {
-    className: `nav-link ${activeTab === 'timecards' ? 'active' : ''}`,
-    onClick: () => setActiveTab('timecards')
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: "calendar"
-  }), " Timecards"), /*#__PURE__*/React.createElement("div", {
-    className: `nav-link ${activeTab === 'rosters' ? 'active' : ''}`,
-    onClick: () => setActiveTab('rosters')
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: "clipboard-list"
-  }), " Roster Comp."), /*#__PURE__*/React.createElement("div", {
-    className: `nav-link ${activeTab === 'sheets' ? 'active' : ''}`,
-    onClick: () => setActiveTab('sheets')
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: "sheet"
-  }), " Payroll Sheets"), /*#__PURE__*/React.createElement("div", {
-    className: `nav-link ${activeTab === 'forms' ? 'active' : ''}`,
-    onClick: () => setActiveTab('forms')
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: "file-signature"
-  }), " Onboarding Forms"), /*#__PURE__*/React.createElement("div", {
-    className: `nav-link ${activeTab === 'settings' ? 'active' : ''}`,
-    onClick: () => setActiveTab('settings')
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: "settings"
-  }), " Settings"), /*#__PURE__*/React.createElement("button", {
-    className: "theme-toggle-btn",
-    onClick: () => setDarkMode(!darkMode),
-    title: "Toggle Light/Dark Theme",
-    style: { marginLeft: '12px' }
-  }, /*#__PURE__*/React.createElement(SafeIcon, {
-    name: darkMode ? "sun" : "moon"
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "form-group",
-    style: {
-      marginBottom: 0
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    style: {
-      color: 'var(--beige)',
-      fontSize: '9px'
-    }
-  }, "Payroll Week Ending"), /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    className: "form-control",
-    style: {
-      padding: '6px 10px',
-      fontSize: '12px',
-      width: '140px',
-      backgroundColor: 'var(--cream)',
-      color: 'var(--brown)'
-    },
-    value: currentWeekEnding,
-    onChange: e => setCurrentWeekEnding(e.target.value)
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "main-container"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: `tab-panel ${activeTab === 'dashboard' ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement(DashboardView, {
-    employees: employees,
-    calculations: calculations,
-    settings: calcSettings,
-    setSettings: val => {
-      setCalcSettings(val);
-      db.saveCalculationSettings(val);
-    },
-    adjustments: adjustments,
-    lockedWeeks: lockedWeeks,
-    onLockWeek: handleLockWeek,
-    currentWeekEnding: currentWeekEnding
-  })), /*#__PURE__*/React.createElement("div", {
-    className: `tab-panel ${activeTab === 'employees' ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement(EmployeesView, {
-    employees: employees,
-    saveEmployees: handleSaveEmployees,
-    selectedId: selectedEmployeeId,
-    setSelectedId: setSelectedEmployeeId,
-    leaveBalances: leaveBalances,
-    saveLeaveBalances: (empId, balances) => {
-      const updated = {
-        ...leaveBalances,
-        [empId]: balances
-      };
-      setLeaveBalances(updated);
-      db.saveLeaveBalances(updated);
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    className: `tab-panel ${activeTab === 'timecards' ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement(TimecardsView, {
-    employees: employees,
-    timecards: timecards[currentWeekEnding] || [],
-    weekEnding: currentWeekEnding,
-    saveTimecard: handleSaveTimecard,
-    selectedId: selectedEmployeeId,
-    setSelectedId: setSelectedEmployeeId,
-    calcSettings: calcSettings
-  })), /*#__PURE__*/React.createElement("div", {
-    className: `tab-panel ${activeTab === 'rosters' ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement(RosterComparisonView, {
-    employees: employees,
-    weekEnding: currentWeekEnding,
-    rosterValues: rosters[currentWeekEnding] || {},
-    actualCalculations: calculations.parsedData,
-    saveRoster: handleSaveRoster,
-    rosterComments: rosterComments[currentWeekEnding] || {},
-    saveRosterComment: handleSaveRosterComment
-  })), /*#__PURE__*/React.createElement("div", {
-    className: `tab-panel ${activeTab === 'sheets' ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement(SheetsTabPanel, {
-    employees: employees,
-    weekEnding: currentWeekEnding,
-    calculations: calculations,
-    adjustments: adjustments,
-    saveAdjustments: handleSaveAdjustments,
-    calcSettings: calcSettings,
-    setCalcSettings: val => {
-      setCalcSettings(val);
-      db.saveCalculationSettings(val);
-    },
-    activeSheetTab: activeSheetTab,
-    setActiveSheetTab: setActiveSheetTab
-  })), /*#__PURE__*/React.createElement("div", {
-    className: `tab-panel ${activeTab === 'forms' ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement(FormsView, {
-    employees: employees,
-    selectedId: selectedEmployeeId,
-    setSelectedId: setSelectedEmployeeId
-  })), /*#__PURE__*/React.createElement("div", {
-    className: `tab-panel ${activeTab === 'settings' ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement(SettingsView, {
-    settings: calcSettings,
-    setSettings: val => {
-      setCalcSettings(val);
-      db.saveCalculationSettings(val);
-    },
-    employees: employees,
-    saveEmployees: handleSaveEmployees
-  }))), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("p", null, "\xA9 2026 Pancakes On The Rocks - POTR Payroll Pro Systems. Compliance Engine v1.0.0")));
+  return /*#__PURE__*/React.createElement("div", null, 
+    /*#__PURE__*/React.createElement("div", { className: "navbar" }, 
+      /*#__PURE__*/React.createElement("div", { className: "brand-container" }, 
+        /*#__PURE__*/React.createElement("div", { className: "brand-logo" }, "P"), 
+        /*#__PURE__*/React.createElement("div", { className: "brand-text" }, 
+          /*#__PURE__*/React.createElement("h1", null, "POTR Payroll Pro"), 
+          /*#__PURE__*/React.createElement("p", null, "Pancakes On The Rocks")
+        )
+      ), 
+      kioskMode ? /*#__PURE__*/React.createElement("div", { style: { display: 'flex', alignItems: 'center', gap: '20px', color: 'var(--beige)', fontWeight: 'bold' } }, 
+        /*#__PURE__*/React.createElement("span", { style: { display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--amber)' } }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "lock" }), 
+          "STAFF KIOSK MODE ACTIVE"
+        ), 
+        /*#__PURE__*/React.createElement("button", {
+          className: "btn btn-secondary btn-sm",
+          onClick: () => {
+            setPinInput('');
+            setPinError(false);
+            setShowPinModal(true);
+          }
+        }, "Unlock Manager Mode")
+      ) : /*#__PURE__*/React.createElement("div", { className: "nav-links" }, 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'dashboard' ? 'active' : ''}`, onClick: () => setActiveTab('dashboard') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "layout-dashboard" }), " Dashboard"
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'employees' ? 'active' : ''}`, onClick: () => setActiveTab('employees') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "users" }), " Employees"
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'timecards' ? 'active' : ''}`, onClick: () => setActiveTab('timecards') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "calendar" }), " Timecards"
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'roster-planner' ? 'active' : ''}`, onClick: () => setActiveTab('roster-planner') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "calendar" }), " Roster Planner"
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'rosters' ? 'active' : ''}`, onClick: () => setActiveTab('rosters') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "clipboard-list" }), " Roster Comp."
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'sheets' ? 'active' : ''}`, onClick: () => setActiveTab('sheets') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "sheet" }), " Payroll Sheets"
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'forms' ? 'active' : ''}`, onClick: () => setActiveTab('forms') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "file-signature" }), " Onboarding Forms"
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `nav-link ${activeTab === 'settings' ? 'active' : ''}`, onClick: () => setActiveTab('settings') }, 
+          /*#__PURE__*/React.createElement(SafeIcon, { name: "settings" }), " Settings"
+        ), 
+        /*#__PURE__*/React.createElement("button", {
+          className: "theme-toggle-btn",
+          onClick: () => setDarkMode(!darkMode),
+          title: "Toggle Light/Dark Theme",
+          style: { marginLeft: '12px' }
+        }, /*#__PURE__*/React.createElement(SafeIcon, { name: darkMode ? "sun" : "moon" })), 
+        /*#__PURE__*/React.createElement("button", {
+          className: "btn btn-dark btn-sm",
+          style: { marginLeft: '12px', display: 'flex', alignItems: 'center', gap: '6px' },
+          onClick: () => {
+            setKioskMode(true);
+            setActiveTab('timecards');
+          }
+        }, /*#__PURE__*/React.createElement(SafeIcon, { name: "lock" }), " Staff Kiosk")
+      ), 
+      /*#__PURE__*/React.createElement("div", { className: "form-group", style: { marginBottom: 0 } }, 
+        /*#__PURE__*/React.createElement("label", { style: { color: 'var(--beige)', fontSize: '9px' } }, "Payroll Week Ending"), 
+        /*#__PURE__*/React.createElement("input", {
+          type: "date",
+          className: "form-control",
+          style: { padding: '6px 10px', fontSize: '12px', width: '140px', backgroundColor: 'var(--cream)', color: 'var(--brown)' },
+          value: currentWeekEnding,
+          onChange: e => setCurrentWeekEnding(e.target.value)
+        })
+      )
+    ), 
+    /*#__PURE__*/React.createElement("div", { className: "main-container" }, 
+      kioskMode ? /*#__PURE__*/React.createElement(React.Fragment, null, 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel active` }, 
+          /*#__PURE__*/React.createElement(TimecardsView, {
+            employees: employees,
+            timecards: timecards[currentWeekEnding] || [],
+            weekEnding: currentWeekEnding,
+            saveTimecard: handleSaveTimecard,
+            selectedId: selectedEmployeeId,
+            setSelectedId: setSelectedEmployeeId,
+            calcSettings: {
+              ...calcSettings,
+              trueSales: (weeklyMetrics[currentWeekEnding] || {}).trueSales || calcSettings.trueSales,
+              receipts: (weeklyMetrics[currentWeekEnding] || {}).receipts || calcSettings.receipts,
+              guests: (weeklyMetrics[currentWeekEnding] || {}).guests || calcSettings.guests
+            }
+          })
+        )
+      ) : /*#__PURE__*/React.createElement(React.Fragment, null, 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'dashboard' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(DashboardView, {
+            employees: employees,
+            calculations: calculations,
+            settings: {
+              ...calcSettings,
+              trueSales: (weeklyMetrics[currentWeekEnding] || {}).trueSales || calcSettings.trueSales,
+              receipts: (weeklyMetrics[currentWeekEnding] || {}).receipts || calcSettings.receipts,
+              guests: (weeklyMetrics[currentWeekEnding] || {}).guests || calcSettings.guests
+            },
+            setSettings: val => {
+              const newMetrics = {
+                trueSales: val.trueSales,
+                receipts: val.receipts,
+                guests: val.guests
+              };
+              handleSaveWeeklyMetrics(currentWeekEnding, newMetrics);
+              
+              const newCalcSettings = { ...val };
+              delete newCalcSettings.trueSales;
+              delete newCalcSettings.receipts;
+              delete newCalcSettings.guests;
+              setCalcSettings(prev => ({ ...prev, ...newCalcSettings }));
+              db.saveCalculationSettings({ ...calcSettings, ...newCalcSettings });
+            },
+            adjustments: adjustments,
+            lockedWeeks: lockedWeeks,
+            onLockWeek: handleLockWeek,
+            currentWeekEnding: currentWeekEnding
+          })
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'employees' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(EmployeesView, {
+            employees: employees,
+            saveEmployees: handleSaveEmployees,
+            selectedId: selectedEmployeeId,
+            setSelectedId: setSelectedEmployeeId,
+            leaveBalances: leaveBalances,
+            saveLeaveBalances: (empId, balances) => {
+              const updated = { ...leaveBalances, [empId]: balances };
+              setLeaveBalances(updated);
+              db.saveLeaveBalances(updated);
+            }
+          })
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'timecards' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(TimecardsView, {
+            employees: employees,
+            timecards: timecards[currentWeekEnding] || [],
+            weekEnding: currentWeekEnding,
+            saveTimecard: handleSaveTimecard,
+            selectedId: selectedEmployeeId,
+            setSelectedId: setSelectedEmployeeId,
+            calcSettings: {
+              ...calcSettings,
+              trueSales: (weeklyMetrics[currentWeekEnding] || {}).trueSales || calcSettings.trueSales,
+              receipts: (weeklyMetrics[currentWeekEnding] || {}).receipts || calcSettings.receipts,
+              guests: (weeklyMetrics[currentWeekEnding] || {}).guests || calcSettings.guests
+            }
+          })
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'roster-planner' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(RosterPlannerView, {
+            employees: employees,
+            weekEnding: currentWeekEnding,
+            rosterPlanner: rosterPlanner[currentWeekEnding] || {},
+            saveRosterPlanner: (plannerData) => handleSaveRosterPlanner(currentWeekEnding, plannerData),
+            calcSettings: {
+              ...calcSettings,
+              trueSales: (weeklyMetrics[currentWeekEnding] || {}).trueSales || calcSettings.trueSales,
+              receipts: (weeklyMetrics[currentWeekEnding] || {}).receipts || calcSettings.receipts,
+              guests: (weeklyMetrics[currentWeekEnding] || {}).guests || calcSettings.guests
+            }
+          })
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'rosters' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(RosterComparisonView, {
+            employees: employees,
+            weekEnding: currentWeekEnding,
+            rosterValues: getWeeklyRostersData(),
+            actualCalculations: calculations.parsedData,
+            saveRoster: handleSaveRoster,
+            rosterComments: rosterComments[currentWeekEnding] || {},
+            saveRosterComment: handleSaveRosterComment
+          })
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'sheets' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(SheetsTabPanel, {
+            employees: employees,
+            weekEnding: currentWeekEnding,
+            calculations: calculations,
+            adjustments: adjustments,
+            saveAdjustments: handleSaveAdjustments,
+            calcSettings: {
+              ...calcSettings,
+              trueSales: (weeklyMetrics[currentWeekEnding] || {}).trueSales || calcSettings.trueSales,
+              receipts: (weeklyMetrics[currentWeekEnding] || {}).receipts || calcSettings.receipts,
+              guests: (weeklyMetrics[currentWeekEnding] || {}).guests || calcSettings.guests
+            },
+            setCalcSettings: val => {
+              setCalcSettings(val);
+              db.saveCalculationSettings(val);
+            },
+            activeSheetTab: activeSheetTab,
+            setActiveSheetTab: setActiveSheetTab
+          })
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'forms' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(FormsView, {
+            employees: employees,
+            selectedId: selectedEmployeeId,
+            setSelectedId: setSelectedEmployeeId
+          })
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: `tab-panel ${activeTab === 'settings' ? 'active' : ''}` }, 
+          /*#__PURE__*/React.createElement(SettingsView, {
+            settings: calcSettings,
+            setSettings: val => {
+              setCalcSettings(val);
+              db.saveCalculationSettings(val);
+            },
+            employees: employees,
+            saveEmployees: handleSaveEmployees
+          })
+        )
+      )
+    ), 
+    /*#__PURE__*/React.createElement("footer", null, 
+      /*#__PURE__*/React.createElement("p", null, "© 2026 Pancakes On The Rocks - POTR Payroll Pro Systems. Compliance Engine v1.0.0")
+    ), 
+
+    // PIN unlock dialog modal
+    showPinModal && /*#__PURE__*/React.createElement("div", {
+      style: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000 }
+    }, 
+      /*#__PURE__*/React.createElement("div", { className: "glass-card", style: { width: '280px', padding: '24px', backgroundColor: 'var(--cream)', border: '2px solid var(--brown)', textAlign: 'center' } }, 
+        /*#__PURE__*/React.createElement("h3", { style: { marginTop: 0 } }, "Manager Authentication"), 
+        /*#__PURE__*/React.createElement("p", { style: { fontSize: '11px', color: 'var(--gray-500)' } }, "Enter your Manager PIN to switch back to Admin Mode"), 
+        /*#__PURE__*/React.createElement("input", {
+          type: "password",
+          className: "form-control",
+          value: pinInput,
+          readOnly: true,
+          style: { textAlign: 'center', fontSize: '24px', letterSpacing: '4px', marginBottom: '16px', backgroundColor: 'white' }
+        }), 
+        pinError && /*#__PURE__*/React.createElement("div", { style: { color: 'var(--danger)', fontSize: '11px', marginBottom: '10px' } }, "Incorrect PIN. Try again."), 
+        
+        // PIN pad grid
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '20px' }
+        }, 
+          [1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => /*#__PURE__*/React.createElement("button", {
+            key: num,
+            className: "btn btn-secondary",
+            style: { padding: '12px 0', fontSize: '16px', fontWeight: 600 },
+            onClick: () => {
+              setPinError(false);
+              setPinInput(prev => prev + num);
+            }
+          }, num)), 
+          /*#__PURE__*/React.createElement("button", {
+            className: "btn btn-dark",
+            style: { padding: '12px 0', fontSize: '12px', fontWeight: 600 },
+            onClick: () => {
+              setPinError(false);
+              setPinInput('');
+            }
+          }, "Clear"), 
+          /*#__PURE__*/React.createElement("button", {
+            className: "btn btn-secondary",
+            style: { padding: '12px 0', fontSize: '16px', fontWeight: 600 },
+            onClick: () => {
+              setPinError(false);
+              setPinInput(prev => prev + "0");
+            }
+          }, "0"), 
+          /*#__PURE__*/React.createElement("button", {
+            className: "btn btn-primary",
+            style: { padding: '12px 0', fontSize: '12px', fontWeight: 600 },
+            onClick: () => {
+              const correctPin = calcSettings.managerPin || "1234";
+              if (pinInput === correctPin) {
+                setKioskMode(false);
+                setShowPinModal(false);
+                setPinInput('');
+              } else {
+                setPinError(true);
+                setPinInput('');
+              }
+            }
+          }, "OK")
+        ), 
+        /*#__PURE__*/React.createElement("button", {
+          className: "btn btn-secondary btn-sm",
+          style: { width: '100%' },
+          onClick: () => {
+            setShowPinModal(false);
+            setPinInput('');
+            setPinError(false);
+          }
+        }, "Cancel")
+      )
+    )
+  );
 }
 
 // Sub-component: Dashboard View
@@ -4228,6 +6661,7 @@ function SettingsView({
   const [restaurantName, setRestaurantName] = useState(settings.restaurantName || 'POTR NORTHMEAD');
   const [apcaNumber, setApcaNumber] = useState(settings.apcaNumber || '123456');
   const [bankName, setBankName] = useState(settings.bankName || 'CBA');
+  const [managerPin, setManagerPin] = useState(settings.managerPin || '1234');
 
   const handleRateChange = (key, val) => {
     setRates({
@@ -4251,7 +6685,8 @@ function SettingsView({
       restaurantAccount,
       restaurantName,
       apcaNumber,
-      bankName
+      bankName,
+      managerPin
     };
     setSettings(newSettings);
 
@@ -4343,6 +6778,16 @@ function SettingsView({
           placeholder: "sk-...",
           value: openaiApiKey,
           onChange: e => setOpenaiApiKey(e.target.value)
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Manager Access PIN (for Kiosk Mode)"),
+        React.createElement("input", {
+          type: "text",
+          className: "form-control",
+          placeholder: "1234",
+          value: managerPin,
+          maxLength: 8,
+          onChange: e => setManagerPin(e.target.value.replace(/\D/g, ''))
         })
       ), React.createElement("div", { className: "form-group" },
         React.createElement("label", null, "Restaurant Bank BSB"),
@@ -4792,3 +7237,227 @@ function OcrScannerModal({
 // Render React Application
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(/*#__PURE__*/React.createElement(App, null));
+
+// Sub-component: Roster Planner View
+function RosterPlannerView({
+  employees,
+  weekEnding,
+  rosterPlanner,
+  saveRosterPlanner,
+  calcSettings
+}) {
+  const [selectedCell, setSelectedCell] = React.useState(null); // { empId, day }
+  const [modalShift, setModalShift] = React.useState({
+    active: false,
+    start: "09:00",
+    end: "17:00",
+    breakMinutes: 30,
+    role: "Floor"
+  });
+
+  const days = [
+    { key: 'tue', name: 'Tuesday' },
+    { key: 'wed', name: 'Wednesday' },
+    { key: 'thu', name: 'Thursday' },
+    { key: 'fri', name: 'Friday' },
+    { key: 'sat', name: 'Saturday' },
+    { key: 'sun', name: 'Sunday' },
+    { key: 'mon', name: 'Monday' }
+  ];
+
+  const handleCellClick = (empId, day) => {
+    const existing = rosterPlanner[empId]?.[day] || {
+      active: false,
+      start: "09:00",
+      end: "17:00",
+      breakMinutes: 30,
+      role: "Floor"
+    };
+    setSelectedCell({ empId, day });
+    setModalShift({ ...existing });
+  };
+
+  const handleSaveShift = () => {
+    if (!selectedCell) return;
+    const { empId, day } = selectedCell;
+    const updatedPlanner = { ...rosterPlanner };
+    if (!updatedPlanner[empId]) updatedPlanner[empId] = {};
+    updatedPlanner[empId][day] = { ...modalShift };
+    saveRosterPlanner(updatedPlanner);
+    setSelectedCell(null);
+  };
+
+  // Calculations for projected costs
+  let totalPlannedHours = 0;
+  let totalProjectedCost = 0;
+
+  employees.forEach(emp => {
+    const empPlanner = rosterPlanner[emp.id] || {};
+    const baseRate = parseFloat(emp.baseRate || 27.08);
+    const isCasual = emp.status === 'Casual';
+
+    days.forEach(d => {
+      const sh = empPlanner[d.key];
+      if (sh && sh.active) {
+        const s = new Date(`2000-01-01T${sh.start}`);
+        let e = new Date(`2000-01-01T${sh.end}`);
+        if (e < s) e = new Date(`2000-01-02T${sh.end}`);
+        const diffHrs = (e - s) / (1000 * 60 * 60) - (sh.breakMinutes || 0) / 60;
+        const hours = Math.max(0, diffHrs);
+        totalPlannedHours += hours;
+
+        // Apply penalty multipliers
+        let multiplier = 1.0;
+        if (isCasual) multiplier = 1.25; // casual loading
+        
+        if (d.key === 'sat') {
+          multiplier = isCasual ? 1.50 : 1.25;
+        } else if (d.key === 'sun') {
+          multiplier = isCasual ? 1.75 : 1.50;
+        }
+        
+        totalProjectedCost += hours * baseRate * multiplier;
+      }
+    });
+  });
+
+  const receipts = calcSettings.receipts || 0;
+  const projectedWagePercent = receipts > 0 ? (totalProjectedCost / receipts) * 100 : 0;
+  const isOptimal = projectedWagePercent >= 34 && projectedWagePercent <= 36;
+
+  useIcons();
+
+  return /*#__PURE__*/React.createElement("div", null, 
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', borderBottom: '2px solid var(--beige)', paddingBottom: '12px', marginBottom: '20px' }
+    }, 
+      /*#__PURE__*/React.createElement("div", null, 
+        /*#__PURE__*/React.createElement("h2", { style: { fontSize: '24px', margin: 0 } }, "Weekly Roster Planner"), 
+        /*#__PURE__*/React.createElement("p", { style: { color: 'var(--gray-500)', fontSize: '12px', margin: '4px 0 0 0' } }, "Configure planned shifts and check live budget projections before the cycle begins.")
+      ), 
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: 'flex', gap: '16px', flexWrap: 'wrap' }
+      }, 
+        /*#__PURE__*/React.createElement("div", { className: "glass-card", style: { padding: '8px 16px', textAlign: 'center', minWidth: '100px' } }, 
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: '10px', textTransform: 'uppercase', color: 'var(--gray-500)' } }, "Planned Hours"), 
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: '18px', fontWeight: 700 } }, totalPlannedHours.toFixed(2), " hrs")
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: "glass-card", style: { padding: '8px 16px', textAlign: 'center', minWidth: '100px' } }, 
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: '10px', textTransform: 'uppercase', color: 'var(--gray-500)' } }, "Projected Cost"), 
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: '18px', fontWeight: 700 } }, "$", totalProjectedCost.toFixed(2))
+        ), 
+        /*#__PURE__*/React.createElement("div", { 
+          className: "glass-card", 
+          style: { padding: '8px 16px', textAlign: 'center', minWidth: '140px', border: `1px solid ${isOptimal ? 'var(--success)' : 'var(--warning)'}` } 
+        }, 
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: '10px', textTransform: 'uppercase', color: 'var(--gray-500)' } }, "Projected Wage %"), 
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: '18px', fontWeight: 700, color: isOptimal ? 'var(--success)' : 'var(--warning)' } }, projectedWagePercent.toFixed(2), "%")
+        )
+      )
+    ), 
+
+    /*#__PURE__*/React.createElement("div", { className: "glass-card", style: { padding: '20px', overflowX: 'auto' } }, 
+      /*#__PURE__*/React.createElement("table", { className: "table", style: { width: '100%', borderCollapse: 'collapse', fontSize: '12px' } }, 
+        /*#__PURE__*/React.createElement("thead", null, 
+          /*#__PURE__*/React.createElement("tr", { style: { borderBottom: '2px solid var(--brown)', color: 'var(--gray-500)', textTransform: 'uppercase' } }, 
+            /*#__PURE__*/React.createElement("th", { style: { padding: '10px', textAlign: 'left' } }, "Employee"), 
+            days.map(d => /*#__PURE__*/React.createElement("th", { key: d.key, style: { padding: '10px', textAlign: 'center' } }, d.name))
+          )
+        ), 
+        /*#__PURE__*/React.createElement("tbody", null, 
+          employees.map(emp => {
+            const empPlanner = rosterPlanner[emp.id] || {};
+            return /*#__PURE__*/React.createElement("tr", { key: emp.id, style: { borderBottom: '1px solid var(--beige)' } }, 
+              /*#__PURE__*/React.createElement("td", { style: { padding: '10px', fontWeight: 600 } }, emp.fullName), 
+              days.map(d => {
+                const sh = empPlanner[d.key];
+                const active = sh && sh.active;
+                return /*#__PURE__*/React.createElement("td", { 
+                  key: d.key, 
+                  onClick: () => handleCellClick(emp.id, d.key),
+                  style: { padding: '8px', textAlign: 'center', cursor: 'pointer' } 
+                }, 
+                  active ? /*#__PURE__*/React.createElement("span", {
+                    className: "badge badge-gold",
+                    style: { display: 'block', fontSize: '10px', padding: '6px' }
+                  }, `${sh.start}-${sh.end}`, /*#__PURE__*/React.createElement("br"), `(${sh.role})`) 
+                  : /*#__PURE__*/React.createElement("span", {
+                    style: { display: 'block', color: '#ccc', fontSize: '10px', padding: '6px', border: '1px dashed #ddd', borderRadius: '4px' }
+                  }, "Off")
+                );
+              })
+            );
+          })
+        )
+      )
+    ),
+
+    // Shift modal editor
+    selectedCell && /*#__PURE__*/React.createElement("div", {
+      style: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }
+    }, 
+      /*#__PURE__*/React.createElement("div", { className: "glass-card", style: { width: '320px', padding: '24px', backgroundColor: 'var(--cream)', border: '2px solid var(--brown)' } }, 
+        /*#__PURE__*/React.createElement("h3", { style: { marginTop: 0 } }, "Set Planned Shift"), 
+        /*#__PURE__*/React.createElement("p", { style: { fontSize: '11px', color: 'var(--gray-500)' } }, 
+          "Employee ID: ", selectedCell.empId, " | Day: ", selectedCell.day.toUpperCase()
+        ), 
+        /*#__PURE__*/React.createElement("div", { className: "form-group", style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } }, 
+          /*#__PURE__*/React.createElement("label", null, "Worked Shift:"), 
+          /*#__PURE__*/React.createElement("label", { className: "toggle-switch" }, 
+            /*#__PURE__*/React.createElement("input", {
+              type: "checkbox",
+              checked: modalShift.active,
+              onChange: e => setModalShift({ ...modalShift, active: e.target.checked })
+            }), 
+            /*#__PURE__*/React.createElement("span", { className: "slider" })
+          )
+        ), 
+        modalShift.active && /*#__PURE__*/React.createElement(React.Fragment, null, 
+          /*#__PURE__*/React.createElement("div", { className: "form-group" }, 
+            /*#__PURE__*/React.createElement("label", null, "Start Time:"), 
+            /*#__PURE__*/React.createElement("input", {
+              type: "time",
+              className: "form-control",
+              value: modalShift.start,
+              onChange: e => setModalShift({ ...modalShift, start: e.target.value })
+            })
+          ), 
+          /*#__PURE__*/React.createElement("div", { className: "form-group" }, 
+            /*#__PURE__*/React.createElement("label", null, "End Time:"), 
+            /*#__PURE__*/React.createElement("input", {
+              type: "time",
+              className: "form-control",
+              value: modalShift.end,
+              onChange: e => setModalShift({ ...modalShift, end: e.target.value })
+            })
+          ), 
+          /*#__PURE__*/React.createElement("div", { className: "form-group" }, 
+            /*#__PURE__*/React.createElement("label", null, "Break duration (minutes):"), 
+            /*#__PURE__*/React.createElement("input", {
+              type: "number",
+              className: "form-control",
+              value: modalShift.breakMinutes,
+              onChange: e => setModalShift({ ...modalShift, breakMinutes: parseInt(e.target.value || 0) })
+            })
+          ), 
+          /*#__PURE__*/React.createElement("div", { className: "form-group" }, 
+            /*#__PURE__*/React.createElement("label", null, "Role / Station:"), 
+            /*#__PURE__*/React.createElement("select", {
+              className: "form-control",
+              value: modalShift.role,
+              onChange: e => setModalShift({ ...modalShift, role: e.target.value })
+            }, 
+              /*#__PURE__*/React.createElement("option", { value: "Floor" }, "Floor / Service"), 
+              /*#__PURE__*/React.createElement("option", { value: "Kitchen" }, "Kitchen / Back"), 
+              /*#__PURE__*/React.createElement("option", { value: "Supervisor" }, "Shift Supervisor")
+            )
+          )
+        ), 
+        /*#__PURE__*/React.createElement("div", { style: { display: 'flex', gap: '8px', marginTop: '20px' } }, 
+          /*#__PURE__*/React.createElement("button", { className: "btn btn-primary btn-sm", style: { flex: 1 }, onClick: handleSaveShift }, "Save Shift"), 
+          /*#__PURE__*/React.createElement("button", { className: "btn btn-secondary btn-sm", style: { flex: 1 }, onClick: () => setSelectedCell(null) }, "Cancel")
+        )
+      )
+    )
+  );
+}

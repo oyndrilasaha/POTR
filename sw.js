@@ -1,4 +1,4 @@
-const CACHE_NAME = 'potr-payroll-v3';
+const CACHE_NAME = 'potr-payroll-v4';
 const ASSETS = [
   './index.html',
   './styles.css',
