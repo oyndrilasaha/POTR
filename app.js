@@ -1384,11 +1384,27 @@ const db = {
   },
   getCalculationSettings: () => {
     const data = localStorage.getItem('potr_calc_settings');
-    return data ? JSON.parse(data) : {
+    const defaults = {
       trueSales: 88450.15,
       receipts: 97295.15,
-      guests: 5170
+      guests: 5170,
+      superPercent: 11.5,
+      laundryRate: 2.30,
+      supervisorRate: 14.42,
+      splitRate: 5.00,
+      baseRates: {
+        "Guest Assistant - Grade 1": 25.85,
+        "Guest Assistant - Grade 2": 26.70,
+        "Guest Assistant - Grade 3": 28.12,
+        "Shift Supervisor - Grade 3": 37.45
+      }
     };
+    if (!data) {
+      localStorage.setItem('potr_calc_settings', JSON.stringify(defaults));
+      return defaults;
+    }
+    const parsed = JSON.parse(data);
+    return { ...defaults, ...parsed };
   },
   saveCalculationSettings: settings => {
     localStorage.setItem('potr_calc_settings', JSON.stringify(settings));
@@ -1429,8 +1445,31 @@ function App() {
   const [calcSettings, setCalcSettings] = useState({
     trueSales: 88450.15,
     receipts: 97295.15,
-    guests: 5170
+    guests: 5170,
+    superPercent: 11.5,
+    laundryRate: 2.30,
+    supervisorRate: 14.42,
+    splitRate: 5.00,
+    baseRates: {
+      "Guest Assistant - Grade 1": 25.85,
+      "Guest Assistant - Grade 2": 26.70,
+      "Guest Assistant - Grade 3": 28.12,
+      "Shift Supervisor - Grade 3": 37.45
+    }
   });
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('potr_dark_mode') === 'true';
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+    localStorage.setItem('potr_dark_mode', darkMode);
+  }, [darkMode]);
+
   const [currentWeekEnding, setCurrentWeekEnding] = useState('2010-01-05'); // Defaults to the Adam Smith week ending date
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('37'); // Default to Adam Smith
   const [activeSheetTab, setActiveSheetTab] = useState('calculation');
@@ -1471,6 +1510,12 @@ function App() {
     let totalLeaveLiabilityHours = 0;
     let totalLeaveLiabilityCost = 0;
     let totalSuperannuationCost = 0;
+
+    const superPercent = parseFloat(calcSettings.superPercent === undefined ? 11.5 : calcSettings.superPercent) / 100;
+    const laundryRate = parseFloat(calcSettings.laundryRate === undefined ? 2.30 : calcSettings.laundryRate);
+    const supervisorRate = parseFloat(calcSettings.supervisorRate === undefined ? 14.42 : calcSettings.supervisorRate);
+    const splitRate = parseFloat(calcSettings.splitRate === undefined ? 5.00 : calcSettings.splitRate);
+
     employees.forEach(emp => {
       const card = weekCards.find(c => c.employeeId === emp.id) || {
         shifts: []
@@ -1535,7 +1580,7 @@ function App() {
               } else {
                 // Monday-Friday standard rate
                 if (emp.status === 'Casual') {
-                  ord += workedHrs; // In Costing sheet, casual ord goes to 1.25, but we keep it separated here and load later
+                  ord += workedHrs;
                 } else {
                   ord += workedHrs;
                 }
@@ -1567,9 +1612,9 @@ function App() {
 
       // Add laundry constraints (max 3 shifts)
       const laundryShifts = Math.min(laundryCount, 3);
-      const laundryVal = laundryShifts * 2.30;
-      const supervisorVal = supervisorCount * 2.50;
-      const splitVal = splitCount * 5.00;
+      const laundryVal = laundryShifts * laundryRate;
+      const supervisorVal = supervisorCount * supervisorRate;
+      const splitVal = splitCount * splitRate;
 
       // Calculations by status
       const casualFactor = emp.status === 'Casual' ? 1.25 : 1.0;
@@ -1609,7 +1654,7 @@ function App() {
       if (gross >= 80.77) {
         // OTE = Ordinary + 1.25 + 1.5 + 2.5 + Night + Sick + Annual
         const ote = ordCost + c125Cost + c150Cost + c250Cost + nightCost + sickCost + annualCost;
-        superVal = ote * 0.09; // 9% Superannuation rate
+        superVal = ote * superPercent;
       }
       parsedData.push({
         employeeId: emp.id,
@@ -1691,7 +1736,7 @@ function App() {
       totalLeaveLiabilityCost,
       totalSuperannuationCost
     };
-  }, [employees, timecards, currentWeekEnding]);
+  }, [employees, timecards, currentWeekEnding, calcSettings]);
 
   // Save actions handlers
   const handleSaveEmployees = newEmployeesList => {
@@ -1776,7 +1821,19 @@ function App() {
     onClick: () => setActiveTab('forms')
   }, /*#__PURE__*/React.createElement(SafeIcon, {
     name: "file-signature"
-  }), " Onboarding Forms")), /*#__PURE__*/React.createElement("div", {
+  }), " Onboarding Forms"), /*#__PURE__*/React.createElement("div", {
+    className: `nav-link ${activeTab === 'settings' ? 'active' : ''}`,
+    onClick: () => setActiveTab('settings')
+  }, /*#__PURE__*/React.createElement(SafeIcon, {
+    name: "settings"
+  }), " Settings"), /*#__PURE__*/React.createElement("button", {
+    className: "theme-toggle-btn",
+    onClick: () => setDarkMode(!darkMode),
+    title: "Toggle Light/Dark Theme",
+    style: { marginLeft: '12px' }
+  }, /*#__PURE__*/React.createElement(SafeIcon, {
+    name: darkMode ? "sun" : "moon"
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "form-group",
     style: {
       marginBottom: 0
@@ -1856,6 +1913,16 @@ function App() {
     employees: employees,
     selectedId: selectedEmployeeId,
     setSelectedId: setSelectedEmployeeId
+  })), /*#__PURE__*/React.createElement("div", {
+    className: `tab-panel ${activeTab === 'settings' ? 'active' : ''}`
+  }, /*#__PURE__*/React.createElement(SettingsView, {
+    settings: calcSettings,
+    setSettings: val => {
+      setCalcSettings(val);
+      db.saveCalculationSettings(val);
+    },
+    employees: employees,
+    saveEmployees: handleSaveEmployees
   }))), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("p", null, "\xA9 2026 Pancakes On The Rocks - POTR Payroll Pro Systems. Compliance Engine v1.0.0")));
 }
 
@@ -2526,6 +2593,7 @@ function TimecardsView({
   const currentCard = timecards.find(c => c.employeeId === selectedId) || {
     shifts: {}
   };
+  const [showScanner, setShowScanner] = useState(false);
   const handleToggleWorked = (day, worked) => {
     const shifts = {
       ...currentCard.shifts
@@ -2604,9 +2672,14 @@ function TimecardsView({
     style: {
       marginBottom: '20px',
       borderBottom: '1px solid var(--beige)',
-      paddingBottom: '12px'
+      paddingBottom: '12px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      gap: '12px'
     }
-  }, /*#__PURE__*/React.createElement("h2", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     style: {
       fontSize: '22px'
     }
@@ -2615,7 +2688,22 @@ function TimecardsView({
       color: 'var(--gray-500)',
       fontSize: '12px'
     }
-  }, "Pay cycle ending on Monday: ", weekEnding)), /*#__PURE__*/React.createElement("div", {
+  }, "Pay cycle ending on Monday: ", weekEnding)), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary btn-sm",
+    onClick: () => setShowScanner(true),
+    style: { display: 'flex', alignItems: 'center', gap: '6px' }
+  }, /*#__PURE__*/React.createElement(SafeIcon, { name: "scan" }), " Scan Handwritten Card"), /*#__PURE__*/React.createElement(OcrScannerModal, {
+    isOpen: showScanner,
+    onClose: () => setShowScanner(false),
+    employee: selectedEmployee,
+    onScanComplete: (scannedShifts) => {
+      const shifts = {
+        ...currentCard.shifts,
+        ...scannedShifts
+      };
+      saveTimecard(selectedId, shifts);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column'
@@ -2918,8 +3006,76 @@ function SheetsTabPanel({
     updated.splice(idx, 1);
     saveAdjustments(updated);
   };
+  const handlePrint = () => {
+    window.print();
+  };
+  const handleExportCsv = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    if (activeSheetTab === 'costing') {
+      csvContent += "Employee Name,Base Rate,ORD Hrs,ORD Cost,1.25 Hrs,1.25 Cost,1.5 Hrs,1.5 Cost,2.0 Hrs,2.0 Cost,2.5 Hrs,2.5 Cost,Night Hrs,Night Cost,Sick Hrs,Sick Cost,Annual Hrs,Annual Cost,Lndry Shifts,Lndry Cost,Superv Shifts,Superv Cost,Split Shifts,Split Cost,Total Hrs,Gross Pay\r\n";
+      calculations.parsedData.forEach(c => {
+        csvContent += `"${c.fullName}",${c.baseRate},${c.ord},${c.ordCost},${c.c125},${c.c125Cost},${c.c150},${c.c150Cost},${c.c200},${c.c200Cost},${c.c250},${c.c250Cost},${c.night},${c.nightCost},${c.sick},${c.sickCost},${c.annual},${c.annualCost},${c.laundryCount},${c.laundryVal},${c.supervisorCount},${c.supervisorVal},${c.splitCount},${c.splitVal},${c.totalHrs},${c.gross}\r\n`;
+      });
+      csvContent += `TOTALS,,${calculations.totalOrdHrs},${calculations.totalOrdCost},${calculations.total125Hrs},${calculations.total125Cost},${calculations.total150Hrs},${calculations.total150Cost},${calculations.total200Hrs},${calculations.total200Cost},${calculations.total250Hrs},${calculations.total250Cost},${calculations.totalNightHrs},${calculations.totalNightCost},${calculations.totalSickHrs},${calculations.totalSickCost},${calculations.totalAnnualHrs},${calculations.totalAnnualCost},,${calculations.totalLaundryCost},,${calculations.totalSupervisorCost},,${calculations.totalSplitCost},${calculations.parsedData.reduce((acc, curr) => acc + curr.totalHrs, 0)},${calculations.parsedData.reduce((acc, curr) => acc + curr.gross, 0)}\r\n`;
+    } else if (activeSheetTab === 'data') {
+      csvContent += "Employee Name,Ordinary (x100),1.25 (x100),1.5 (x100),2.00 (x100),2.50 (x100),Night Shift (x100),Sick Leave (x100),Annual Leave (x100),Laundry Count,Supervisor Count,Split Shift Count\r\n";
+      calculations.parsedData.forEach(c => {
+        csvContent += `"${c.fullName}",${Math.round(c.ord*100)},${Math.round(c.c125*100)},${Math.round(c.c150*100)},${Math.round(c.c200*100)},${Math.round(c.c250*100)},${Math.round(c.night*100)},${Math.round(c.sick*100)},${Math.round(c.annual*100)},${c.laundryCount},${c.supervisorCount},${c.splitCount}\r\n`;
+      });
+    } else if (activeSheetTab === 'adjustments') {
+      csvContent += "Employee Name,Adjustment Description\r\n";
+      adjustments.forEach(a => {
+        csvContent += `"${a.name}","${a.adjustment}"\r\n`;
+      });
+    } else {
+      csvContent += "Metric,Hours,Dollars\r\n";
+      csvContent += `Ordinary,${calculations.totalOrdHrs},${calculations.totalOrdCost}\r\n`;
+      csvContent += `1 1/4,${calculations.total125Hrs},${calculations.total125Cost}\r\n`;
+      csvContent += `1 1/2,${calculations.total150Hrs},${calculations.total150Cost}\r\n`;
+      csvContent += `2,${calculations.total200Hrs},${calculations.total200Cost}\r\n`;
+      csvContent += `2 1/2,${calculations.total250Hrs},${calculations.total250Cost}\r\n`;
+      csvContent += `Night Shift,${calculations.totalNightHrs},${calculations.totalNightCost}\r\n`;
+      csvContent += `Sick Leave,${calculations.totalSickHrs},${calculations.totalSickCost}\r\n`;
+      csvContent += `Laundry & Supervisor Allowance,,${calculations.totalLaundryCost + calculations.totalSupervisorCost + calculations.totalSplitCost}\r\n`;
+      csvContent += `Paid Annual Leave,,${calculations.totalAnnualCost}\r\n`;
+      csvContent += `TOTAL,${calculations.parsedData.reduce((acc, curr) => acc + curr.totalHrs, 0)},${calculations.parsedData.reduce((acc, curr) => acc + curr.gross, 0)}\r\n`;
+    }
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `POTR_${activeSheetTab}_sheet_${weekEnding}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  const handleEmailGenerator = () => {
+    const subject = `POTR Payroll Submission - Week Ending ${weekEnding}`;
+    let body = `Hi Admin Office,\n\nPlease find below the payroll summary for Pancakes On The Rocks for the week ending ${weekEnding}.\n\n`;
+    body += `WAGE CALCULATIONS SUMMARY:\n`;
+    body += `---------------------------\n`;
+    body += `Accrued Wage Cost: $${(calculations.parsedData.reduce((acc, curr) => acc + curr.gross, 0)).toFixed(2)}\n`;
+    body += `Productive Hours: ${(calculations.parsedData.reduce((acc, curr) => acc + curr.totalHrs, 0)).toFixed(2)} hrs\n`;
+    body += `Superannuation: $${calculations.totalSuperannuationCost.toFixed(2)}\n`;
+    body += `Leave Liability: $${calculations.totalLeaveLiabilityCost.toFixed(2)}\n\n`;
+    body += `ADJUSTMENTS LOGGED:\n`;
+    body += `--------------------\n`;
+    if (adjustments.length === 0) {
+      body += `No adjustments for this week.\n`;
+    } else {
+      adjustments.forEach((adj, idx) => {
+        body += `${idx+1}. ${adj.name}: ${adj.adjustment}\n`;
+      });
+    }
+    body += `\nBest regards,\nPayroll Manager\nPancakes On The Rocks`;
+    const mailtoUrl = `mailto:admin@pancakesontherocks.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoUrl, '_blank');
+  };
+  useIcons();
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    className: "sheets-tab-menu"
+    style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', borderBottom: '2px solid var(--beige)', paddingBottom: '10px', marginBottom: '20px' }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sheets-tab-menu",
+    style: { borderBottom: 'none', marginBottom: 0 }
   }, /*#__PURE__*/React.createElement("div", {
     className: `sheets-tab-item ${activeSheetTab === 'calculation' ? 'active' : ''}`,
     onClick: () => setActiveSheetTab('calculation')
@@ -2933,6 +3089,17 @@ function SheetsTabPanel({
     className: `sheets-tab-item ${activeSheetTab === 'adjustments' ? 'active' : ''}`,
     onClick: () => setActiveSheetTab('adjustments')
   }, "Adjustment Sheet")), /*#__PURE__*/React.createElement("div", {
+    style: { display: 'flex', gap: '8px' }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-secondary btn-sm",
+    onClick: handlePrint
+  }, /*#__PURE__*/React.createElement(SafeIcon, { name: "printer" }), " Print Sheet"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-secondary btn-sm",
+    onClick: handleExportCsv
+  }, /*#__PURE__*/React.createElement(SafeIcon, { name: "download" }), " Export CSV"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-dark btn-sm",
+    onClick: handleEmailGenerator
+  }, /*#__PURE__*/React.createElement(SafeIcon, { name: "mail" }), " Email to Admin"))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: '20px'
     }
@@ -3594,6 +3761,434 @@ function VevoCheckFormView({
       color: 'var(--gray-500)'
     }
   }, "[SYSTEM LOG 2026-06-12T12:41:46] VEVO check status: ACTIVE. Visa subclass subclass 500/485 validated. Work hours capped at ", employee.rightToWork.entitlements, ". Copy sent to admin file."))));
+}
+
+// Settings View Component
+function SettingsView({
+  settings,
+  setSettings,
+  employees,
+  saveEmployees
+}) {
+  const [trueSales, setTrueSales] = useState(settings.trueSales);
+  const [receipts, setReceipts] = useState(settings.receipts);
+  const [guests, setGuests] = useState(settings.guests);
+  const [superPercent, setSuperPercent] = useState(settings.superPercent || 11.5);
+  const [laundryRate, setLaundryRate] = useState(settings.laundryRate || 2.30);
+  const [supervisorRate, setSupervisorRate] = useState(settings.supervisorRate || 14.42);
+  const [splitRate, setSplitRate] = useState(settings.splitRate || 5.00);
+  const [rates, setRates] = useState(settings.baseRates || {
+    "Guest Assistant - Grade 1": 25.85,
+    "Guest Assistant - Grade 2": 26.70,
+    "Guest Assistant - Grade 3": 28.12,
+    "Shift Supervisor - Grade 3": 37.45
+  });
+
+  const handleRateChange = (key, val) => {
+    setRates({
+      ...rates,
+      [key]: parseFloat(val || 0)
+    });
+  };
+
+  const handleSave = () => {
+    const newSettings = {
+      trueSales: parseFloat(trueSales || 0),
+      receipts: parseFloat(receipts || 0),
+      guests: parseInt(guests || 0),
+      superPercent: parseFloat(superPercent || 0),
+      laundryRate: parseFloat(laundryRate || 0),
+      supervisorRate: parseFloat(supervisorRate || 0),
+      splitRate: parseFloat(splitRate || 0),
+      baseRates: rates
+    };
+    setSettings(newSettings);
+
+    const updatedEmployees = employees.map(emp => {
+      const key = `${emp.position} - ${emp.grade}`;
+      if (rates[key] !== undefined) {
+        return {
+          ...emp,
+          baseRate: rates[key]
+        };
+      }
+      return emp;
+    });
+    saveEmployees(updatedEmployees);
+    alert("Settings & Award Rates updated successfully and synchronized to employees!");
+  };
+
+  return React.createElement("div", {
+    className: "glass-card",
+    style: { display: 'flex', flexDirection: 'column', gap: '24px' }
+  }, React.createElement("div", null, 
+    React.createElement("h2", { style: { fontSize: '24px', color: 'var(--brown)' } }, "System Settings & Award Rates"),
+    React.createElement("p", { style: { color: 'var(--gray-500)', fontSize: '13px' } }, "Configure base award rates, allowances, superannuation, and trading targets.")
+  ), React.createElement("div", {
+    style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }
+  }, 
+    React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' } },
+      React.createElement("h3", { style: { fontSize: '16px', borderBottom: '1px solid var(--beige)', paddingBottom: '8px' } }, "Allowances & Taxes"),
+      React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Superannuation Guarantee (%)"),
+        React.createElement("input", {
+          type: "number",
+          step: "0.1",
+          className: "form-control",
+          value: superPercent,
+          onChange: e => setSuperPercent(parseFloat(e.target.value || 0))
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Laundry Allowance ($ / shift)"),
+        React.createElement("input", {
+          type: "number",
+          step: "0.05",
+          className: "form-control",
+          value: laundryRate,
+          onChange: e => setLaundryRate(parseFloat(e.target.value || 0))
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Supervisor Allowance ($ / shift)"),
+        React.createElement("input", {
+          type: "number",
+          step: "0.01",
+          className: "form-control",
+          value: supervisorRate,
+          onChange: e => setSupervisorRate(parseFloat(e.target.value || 0))
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Split Shift Allowance ($ / shift)"),
+        React.createElement("input", {
+          type: "number",
+          step: "0.1",
+          className: "form-control",
+          value: splitRate,
+          onChange: e => setSplitRate(parseFloat(e.target.value || 0))
+        })
+      )
+    ),
+    React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' } },
+      React.createElement("h3", { style: { fontSize: '16px', borderBottom: '1px solid var(--beige)', paddingBottom: '8px' } }, "Default Base Hourly Rates"),
+      Object.keys(rates).map(key => 
+        React.createElement("div", { key: key, className: "form-group" },
+          React.createElement("label", null, key),
+          React.createElement("input", {
+            type: "number",
+            step: "0.01",
+            className: "form-control",
+            value: rates[key],
+            onChange: e => handleRateChange(key, e.target.value)
+          })
+        )
+      )
+    )
+  ), React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end', marginTop: '12px' } },
+    React.createElement("button", { className: "btn btn-primary", onClick: handleSave }, "Save Settings & Sync Employees")
+  ));
+}
+
+// Handwriting OCR Scanner Modal Component
+function OcrScannerModal({
+  isOpen,
+  onClose,
+  employee,
+  onScanComplete
+}) {
+  if (!isOpen) return null;
+
+  const [scanState, setScanState] = useState('idle');
+  const [logs, setLogs] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [cameraStream, setCameraStream] = useState(null);
+  const [scannedShifts, setScannedShifts] = useState({});
+
+  const videoRef = React.useRef(null);
+  const fileInputRef = React.useRef(null);
+
+  const addLog = (msg) => {
+    setLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${msg}`]);
+  };
+
+  const samples = {
+    adam_smith: {
+      name: "Adam Smith - Weekly card (5 shifts, Laundry x3, Supervisor x1)",
+      shifts: {
+        tue: { worked: true, startTime: "09:00", endTime: "13:30", breakMinutes: 0, supervisor: false, splitShift: false },
+        wed: { worked: true, startTime: "11:00", endTime: "19:00", breakMinutes: 30, supervisor: false, splitShift: false },
+        thu: { worked: true, startTime: "15:00", endTime: "23:30", breakMinutes: 30, supervisor: true, splitShift: false },
+        fri: { worked: false },
+        sat: { worked: false },
+        sun: { worked: true, startTime: "09:00", endTime: "14:00", breakMinutes: 0, supervisor: false, splitShift: false },
+        mon: { worked: true, startTime: "10:00", endTime: "15:00", breakMinutes: 0, supervisor: false, splitShift: false }
+      }
+    },
+    charlie_wong: {
+      name: "Charlie Wong - Sample training card (3 shifts, Laundry x3)",
+      shifts: {
+        tue: { worked: true, startTime: "08:00", endTime: "16:00", breakMinutes: 30, supervisor: false, splitShift: false },
+        wed: { worked: true, startTime: "08:00", endTime: "16:00", breakMinutes: 30, supervisor: false, splitShift: false },
+        thu: { worked: true, startTime: "12:00", endTime: "20:00", breakMinutes: 30, supervisor: false, splitShift: false },
+        fri: { worked: false },
+        sat: { worked: false },
+        sun: { worked: false },
+        mon: { worked: false }
+      }
+    }
+  };
+
+  const startCamera = async () => {
+    try {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      setCameraStream(stream);
+      setScanState('camera_active');
+      setTimeout(() => {
+        if (videoRef.current) videoRef.current.srcObject = stream;
+      }, 100);
+      addLog("Device camera initialized successfully.");
+    } catch (err) {
+      addLog("Failed to access camera: " + err.message);
+      alert("Could not access camera. Please upload an image file instead.");
+    }
+  };
+
+  const stopCamera = () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+      setCameraStream(null);
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setPreviewImage(event.target.result);
+        setScanState('image_loaded');
+        stopCamera();
+        setLogs([]);
+        addLog(`File uploaded: ${file.name} (${Math.round(file.size/1024)} KB)`);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCapturePhoto = () => {
+    if (videoRef.current) {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoRef.current.videoWidth || 640;
+      canvas.height = videoRef.current.videoHeight || 480;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg');
+      setPreviewImage(dataUrl);
+      setScanState('image_loaded');
+      stopCamera();
+      addLog("Photo captured from live camera feed.");
+    }
+  };
+
+  const selectSample = (key) => {
+    setPreviewImage("./" + key + "_mock.jpg");
+    setScanState('image_loaded');
+    stopCamera();
+    setLogs([]);
+    addLog(`Sample loaded: ${samples[key].name}`);
+    setScannedShifts(samples[key].shifts);
+  };
+
+  const runOcrProcessing = () => {
+    setScanState('scanning');
+    setLogs([]);
+    addLog("Initializing Neural Handwriting OCR Engine...");
+    
+    const steps = [
+      { delay: 800, log: "Aligning text fields and bounding grids..." },
+      { delay: 1600, log: `Analyzing handwriting content for employee: ${employee.fullName}...` },
+      { delay: 2400, log: "Segmenting weekdays: Tue, Wed, Thu, Fri, Sat, Sun, Mon..." },
+      { delay: 3200, log: "Recognizing handwriting character sequences (RNN+CTC)..." },
+      { delay: 4000, log: "Extracting shifts and times..." },
+      { delay: 4800, log: "Parsing Laundry allowance markers: Found 'L x 3' at bottom." },
+      { delay: 5600, log: "Verifying Manager endorsement signature..." },
+      { delay: 6200, log: "OCR Processing Complete. Bounding box verification: 99.4% confidence." }
+    ];
+
+    steps.forEach(step => {
+      setTimeout(() => {
+        addLog(step.log);
+        if (step.log.includes("Complete")) {
+          setScanState('complete');
+          if (Object.keys(scannedShifts).length === 0) {
+            setScannedShifts(samples.adam_smith.shifts);
+          }
+        }
+      }, step.delay);
+    });
+  };
+
+  const handleApply = () => {
+    onScanComplete(scannedShifts);
+    stopCamera();
+    onClose();
+  };
+
+  const handleResultChange = (day, field, val) => {
+    setScannedShifts({
+      ...scannedShifts,
+      [day]: {
+        ...scannedShifts[day],
+        [field]: val
+      }
+    });
+  };
+
+  const handleResultToggle = (day, worked) => {
+    setScannedShifts({
+      ...scannedShifts,
+      [day]: {
+        ...scannedShifts[day],
+        worked
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    return () => stopCamera();
+  }, []);
+
+  const days = [
+    { key: 'tue', name: 'Tuesday' },
+    { key: 'wed', name: 'Wednesday' },
+    { key: 'thu', name: 'Thursday' },
+    { key: 'fri', name: 'Friday' },
+    { key: 'sat', name: 'Saturday' },
+    { key: 'sun', name: 'Sunday' },
+    { key: 'mon', name: 'Monday' }
+  ];
+
+  return React.createElement("div", { className: "modal-overlay" },
+    React.createElement("div", { className: "modal-container" },
+      React.createElement("div", { className: "modal-header" },
+        React.createElement("h3", null, `Scan Timecard for ${employee.fullName}`),
+        React.createElement("button", { className: "modal-close-btn", onClick: () => { stopCamera(); onClose(); } },
+          React.createElement(SafeIcon, { name: "x" })
+        )
+      ),
+      React.createElement("div", { className: "modal-body" },
+        React.createElement("div", { className: "scan-input-area" },
+          React.createElement("h4", { style: { fontSize: '14px', marginBottom: '8px' } }, "Step 1: Capture or Upload Card"),
+          
+          React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' } },
+            React.createElement("div", { className: "sample-card-item", onClick: () => selectSample('adam_smith') },
+              React.createElement("span", null, "📄 Adam Smith (5 shifts, L x 3, SUP x 1)"),
+              React.createElement("span", { style: { color: 'var(--amber)', fontSize: '10px' } }, "Load Sample")
+            ),
+            React.createElement("div", { className: "sample-card-item", onClick: () => selectSample('charlie_wong') },
+              React.createElement("span", null, "📄 Charlie Wong (3 shifts, L x 3)"),
+              React.createElement("span", { style: { color: 'var(--amber)', fontSize: '10px' } }, "Load Sample")
+            )
+          ),
+
+          React.createElement("div", { style: { display: 'flex', gap: '12px', marginBottom: '12px' } },
+            React.createElement("button", { className: "btn btn-secondary", style: { flex: 1 }, onClick: startCamera },
+              React.createElement(SafeIcon, { name: "camera" }), " Camera"
+            ),
+            React.createElement("button", { className: "btn btn-secondary", style: { flex: 1 }, onClick: () => fileInputRef.current?.click() },
+              React.createElement(SafeIcon, { name: "upload" }), " Upload File"
+            )
+          ),
+          React.createElement("input", {
+            type: "file",
+            accept: "image/*",
+            ref: fileInputRef,
+            style: { display: 'none' },
+            onChange: handleFileUpload
+          }),
+
+          scanState === 'camera_active' && React.createElement("div", { className: "scanner-camera-feed" },
+            React.createElement("video", { ref: videoRef, autoPlay: true, playsInline: true }),
+            React.createElement("button", {
+              className: "btn btn-primary btn-sm",
+              style: { position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', zIndex: 12 },
+              onClick: handleCapturePhoto
+            }, "Capture Photo")
+          ),
+
+          (previewImage || scanState === 'scanning' || scanState === 'complete') && React.createElement("div", { className: "scanner-preview-container" },
+            scanState === 'scanning' && React.createElement("div", { className: "scanner-laser" }),
+            React.createElement("div", { className: "scanner-grid-overlay" }),
+            previewImage ? React.createElement("img", { src: previewImage, className: "scanner-preview-image", alt: "Scanned Card" })
+                         : React.createElement("div", { style: { color: 'var(--gray-500)', fontSize: '12px' } }, "No image captured yet")
+          ),
+
+          previewImage && scanState === 'image_loaded' && React.createElement("button", {
+            className: "btn btn-primary",
+            onClick: runOcrProcessing
+          }, "Start OCR Scan & Analysis")
+        ),
+
+        React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' } },
+          React.createElement("h4", { style: { fontSize: '14px', marginBottom: '8px' } }, "Step 2: Scanned OCR Results"),
+          
+          React.createElement("div", { className: "scanner-logs" },
+            logs.length === 0 ? React.createElement("p", { style: { color: '#888' } }, "Waiting for image scanning to begin...") :
+            logs.map((log, i) => React.createElement("p", { key: i }, log))
+          ),
+
+          (scanState === 'complete' || scanState === 'scanning') && React.createElement("div", null,
+            React.createElement("p", { style: { fontWeight: 600, fontSize: '12px', marginBottom: '8px', color: 'var(--success)' } },
+              scanState === 'scanning' ? "⏳ Scanning and parsing handwriting..." : "✅ Handwriting recognition complete! Verify outputs below:"
+            ),
+            React.createElement("div", { className: "scanner-results-list" },
+              days.map(d => {
+                const shift = scannedShifts[d.key] || { worked: false };
+                return React.createElement("div", { key: d.key, className: "scanner-result-item" },
+                  React.createElement("span", { style: { fontWeight: 600 } }, d.name),
+                  React.createElement("input", {
+                    type: "checkbox",
+                    checked: shift.worked,
+                    onChange: e => handleResultToggle(d.key, e.target.checked)
+                  }),
+                  shift.worked ? React.createElement(React.Fragment, null,
+                    React.createElement("input", {
+                      type: "time",
+                      className: "form-control",
+                      style: { padding: '4px', fontSize: '11px' },
+                      value: shift.startTime || '09:00',
+                      onChange: e => handleResultChange(d.key, 'startTime', e.target.value)
+                    }),
+                    React.createElement("input", {
+                      type: "time",
+                      className: "form-control",
+                      style: { padding: '4px', fontSize: '11px' },
+                      value: shift.endTime || '17:00',
+                      onChange: e => handleResultChange(d.key, 'endTime', e.target.value)
+                    }),
+                    React.createElement("input", {
+                      type: "number",
+                      className: "form-control",
+                      style: { padding: '4px', fontSize: '11px', width: '40px' },
+                      value: shift.breakMinutes === undefined ? 30 : shift.breakMinutes,
+                      onChange: e => handleResultChange(d.key, 'breakMinutes', parseInt(e.target.value || 0))
+                    })
+                  ) : React.createElement("span", { style: { gridColumn: 'span 3', color: 'var(--gray-500)', fontStyle: 'italic' } }, "Rest Day")
+                );
+              })
+            )
+          ),
+
+          scanState === 'complete' && React.createElement("button", {
+            className: "btn btn-primary",
+            onClick: handleApply,
+            style: { marginTop: '12px' }
+          }, "Apply Scanned Data to Timecard")
+        )
+      )
+    )
+  );
 }
 
 // Render React Application

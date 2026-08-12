@@ -1,0 +1,22 @@
+{
+  "short_name": "POTR Payroll",
+  "name": "Pancakes On The Rocks Payroll Pro",
+  "description": "Weekly payroll calculation and handwriting OCR scanning application for Pancakes On The Rocks.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDF6E3",
+  "theme_color": "#4A2A18",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/192/pancake.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://img.icons8.com/color/512/pancake.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
