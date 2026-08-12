@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POTR Payroll Pro - Manager Quick Start Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brown: #3E2723;
+            --brown-light: #5D4037;
+            --cream: #FFF8E1;
+            --cream-light: #FFFDE7;
+            --amber: #FFB300;
+            --danger: #D84315;
+            --danger-light: #FBE9E7;
+            --warning: #EF6C00;
+            --warning-light: #FFF3E0;
+            --success: #2E7D32;
+            --success-light: #E8F5E9;
+            --text: #2c1d11;
+            --gray-500: #707070;
+            --beige: #F5E5C9;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px;
+            background-color: #faf6f0;
+        }
+
+        .guide-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid var(--beige);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px double var(--brown);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        .logo-placeholder {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--brown);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo-sub {
+            color: var(--amber);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            color: var(--brown);
+            margin: 0;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            color: var(--brown-light);
+            border-bottom: 1px solid var(--beige);
+            padding-bottom: 8px;
+            margin-top: 28px;
+        }
+
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            color: var(--text);
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        ol, ul {
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        /* Callouts / Alerts */
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            font-size: 13.5px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .alert-note {
+            background-color: var(--cream-light);
+            border-left-color: var(--amber);
+            color: #5d4610;
+        }
+
+        .alert-important {
+            background-color: var(--danger-light);
+            border-left-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .alert-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .workflow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #faf6f0;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--beige);
+            margin-bottom: 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brown-light);
+            text-align: center;
+        }
+
+        .workflow-step {
+            flex: 1;
+            padding: 4px;
+        }
+
+        .workflow-arrow {
+            color: var(--amber);
+            font-size: 16px;
+            padding: 0 4px;
+        }
+
+        .faq-item {
+            background: #faf7f2;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #f0e6d5;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .faq-answer {
+            margin: 0;
+            font-size: 13.5px;
+            color: #4a3c31;
+        }
+
+        /* Printable optimization */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .guide-container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .no-print {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <div class="header">
+            <div class="logo-placeholder">PANCAKES ON THE ROCKS <span class="logo-sub">PAYROLL PRO</span></div>
+            <h1>Manager's Quick Start Guide</h1>
+            <p style="color: var(--gray-500); margin: 4px 0 0 0; font-size: 12px;">Simple Weekly Processing Reference</p>
+        </div>
+
+        <div class="workflow-diagram">
+            <div class="workflow-step">1. Set Week Ending</div>
+            <div class="workflow-arrow">➔</div>
+            <div class="workflow-step">2. Enter Sales & Guests</div>
+            <div class="workflow-arrow">➔</div>
+            <div class="workflow-step">3. Scan/Type Timecards</div>
+            <div class="workflow-arrow">➔</div>
+            <div class="workflow-step">4. Audit Variances</div>
+            <div class="workflow-arrow">➔</div>
+            <div class="workflow-step">5. Lock & Export</div>
+        </div>
+
+        <h2>Introduction</h2>
+        <p>Welcome to POTR Payroll Pro! This app handles all calculations, penalties, night multipliers, and allowances based on the POTR operations manual rules. <strong>No manual calculations are required.</strong> Follow these simple parts to run payroll every week.</p>
+
+        <h2>Part 1: Setting up the Week and Sales</h2>
+        <p>When you open the app on Monday night or Tuesday morning:</p>
+        <ol>
+            <li><strong>Select the Week Ending Date:</strong> Use the date selector in the top right corner to select the Monday that ends your pay cycle.</li>
+            <li><strong>Enter Sales Metrics:</strong> In the <strong>Dashboard</strong> tab, input:
+                <ul>
+                    <li>Weekly Total Receipts ($)</li>
+                    <li>True Sales ($)</li>
+                    <li>Guest Count</li>
+                </ul>
+            </li>
+        </ol>
+
+        <div class="alert alert-note">
+            <div class="alert-title">💡 Pro-Tip</div>
+            <div>The app automatically calculates your wage percentage relative to sales. If the bar glows green, your labor cost matches our target budget!</div>
+        </div>
+
+        <h2>Part 2: Entering Hours Worked (Timecards)</h2>
+        <p>Go to the <strong>Timecards</strong> tab and select an employee's name from the sidebar. You can record their hours in two ways:</p>
+        
+        <h3>Option A: The AI Camera Scanner (Recommended)</h3>
+        <ol>
+            <li>Click the blue <strong>Scan Handwritten Card</strong> button.</li>
+            <li>If using a phone/iPad, tap <strong>Capture Photo</strong> and snap a clear picture of their handwritten card. If you already took a photo, click <strong>Upload File</strong> and select it.</li>
+            <li>Click <strong>Start OCR Scan</strong>. The AI will extract their shifts.</li>
+            <li>Review the extracted times. If any box needs correction, click it and type the correct time.</li>
+            <li>Click <strong>Apply Scanned Data</strong> to save it.</li>
+        </ol>
+
+        <h3>Option B: Typing Hours by Hand</h3>
+        <ol>
+            <li>Click the toggle switch under the <strong>Status</strong> column to mark a day as "Worked" (turns gold).</li>
+            <li>Enter the <strong>Start Time</strong> (e.g. <code>09:00</code>) and <strong>End Time</strong> (e.g. <code>17:00</code>).</li>
+            <li>Enter the <strong>Break</strong> in minutes (e.g. <code>30</code>).</li>
+            <li>Tick checkboxes if they worked as a <strong>Supervisor</strong>, a <strong>Split Shift</strong>, or on a <strong>Public Holiday</strong>.</li>
+        </ol>
+
+        <div class="page-break"></div>
+
+        <h2>Part 3: The Roster Check (Compliance Audit)</h2>
+        <p>Go to the <strong>Roster</strong> tab to verify scheduled hours versus actual hours worked:</p>
+        <ol>
+            <li>Type in the scheduled hours from your roster next to each employee.</li>
+            <li>Look at the variance:
+                <ul>
+                    <li><strong>Red Alert (e.g. +4.00):</strong> Employee worked overtime.</li>
+                    <li><strong>Orange Alert (e.g. -3.00):</strong> Employee finished early or started late.</li>
+                </ul>
+            </li>
+            <li><strong>If the variance is more than 2 hours:</strong> You must enter a brief explanation in the <strong>Manager Variance Reason</strong> box (e.g. <em>"Kitchen busy due to local sports event"</em>).</li>
+        </ol>
+
+        <div class="alert alert-important">
+            <div class="alert-title">⚠️ Mandatory Rule</div>
+            <div>The app will block you from locking payroll for the week if any variance greater than 2 hours is left without an explanatory comment.</div>
+        </div>
+
+        <h2>Part 4: Locking and Exporting</h2>
+        <ol>
+            <li>Return to the <strong>Dashboard</strong> tab and click <strong>Finalize & Lock Week</strong>. This locks calculations and updates leave balances.</li>
+            <li>Go to the <strong>Payroll Sheets</strong> tab to extract reports:
+                <ul>
+                    <li><strong>Print Sheet:</strong> Formats costing/calculation tables on clean pages.</li>
+                    <li><strong>Xero Export / MYOB Export:</strong> Downloads timesheets ready to import.</li>
+                    <li><strong>Download ABA Bank File:</strong> Downloads bank instructions to pay everyone in one click.</li>
+                    <li><strong>Email to Admin:</strong> Opens a pre-filled draft email to Head Office.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">The scanner camera won't open on my tablet/phone.</div>
+            <div class="faq-answer">Make sure camera permissions are enabled for the browser. If it still won't load, use your device's normal camera app to take a photo first, then use the "Upload File" option in the app.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">The OCR scanner misread a handwritten number. How do I fix it?</div>
+            <div class="faq-answer">You can easily edit any field. Simply click on the misread time or break duration in the grid and type the correct number.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Can casual employees be paid sick or annual leave?</div>
+            <div class="faq-answer">No. Under the Guest Assistant award manual, casuals are not entitled to paid leave. The calculation engine automatically caps casual leave overrides to 0.</div>
+        </div>
+
+        <div class="faq-item" style="margin-bottom: 0;">
+            <div class="faq-question">Where is the data stored? Will I lose it if I close the tab?</div>
+            <div class="faq-answer">No. All data is saved automatically in your device's local browser memory. You can close the tab or reboot the device, and your entries will be restored.</div>
+        </div>
+    </div>
+</body>
+</html>
