@@ -2001,12 +2001,7 @@ function DashboardView({
       fontSize: '13px'
     }
   }, "Trading summary, compliance warnings and payroll metrics"))), /*#__PURE__*/React.createElement("div", {
-    className: "glass-card",
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: '20px'
-    }
+    className: "glass-card dashboard-perf-inputs"
   }, /*#__PURE__*/React.createElement("div", {
     className: "form-group",
     style: {
@@ -2704,9 +2699,12 @@ function TimecardsView({
       saveTimecard(selectedId, shifts);
     }
   })), /*#__PURE__*/React.createElement("div", {
+    className: "timecard-scroll-wrapper"
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      minWidth: '830px'
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "timecard-day-row",
@@ -2908,7 +2906,7 @@ function TimecardsView({
         fontSize: '12px'
       }
     }, "Off Shift / Rest Day"));
-  }))));
+  })))));
 }
 
 // Sub-component: Roster Comparison View
