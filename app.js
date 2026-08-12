@@ -1408,6 +1408,30 @@ const db = {
   },
   saveCalculationSettings: settings => {
     localStorage.setItem('potr_calc_settings', JSON.stringify(settings));
+  },
+  getLeaveBalances: () => {
+    const data = localStorage.getItem('potr_leave_balances');
+    if (!data) {
+      const defaults = {};
+      const emps = db.getEmployees();
+      emps.forEach(emp => {
+        if (emp.status === 'Casual') {
+          defaults[emp.id] = { annual: 0, sick: 0 };
+        } else {
+          // Initialize with some realistic balances for demo
+          defaults[emp.id] = {
+            annual: Math.round(15 + Math.random() * 40),
+            sick: Math.round(5 + Math.random() * 20)
+          };
+        }
+      });
+      localStorage.setItem('potr_leave_balances', JSON.stringify(defaults));
+      return defaults;
+    }
+    return JSON.parse(data);
+  },
+  saveLeaveBalances: balances => {
+    localStorage.setItem('potr_leave_balances', JSON.stringify(balances));
   }
 };
 const {
@@ -1474,6 +1498,79 @@ function App() {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('37'); // Default to Adam Smith
   const [activeSheetTab, setActiveSheetTab] = useState('calculation');
 
+  const [leaveBalances, setLeaveBalances] = useState({});
+  const [rosterComments, setRosterComments] = useState({});
+  const [lockedWeeks, setLockedWeeks] = useState(() => {
+    return JSON.parse(localStorage.getItem('potr_locked_weeks') || '[]');
+  });
+
+  const handleSaveRosterComment = (empId, val) => {
+    const weekComments = rosterComments[currentWeekEnding] || {};
+    const updated = {
+      ...rosterComments,
+      [currentWeekEnding]: {
+        ...weekComments,
+        [empId]: val
+      }
+    };
+    setRosterComments(updated);
+    localStorage.setItem('potr_roster_comments', JSON.stringify(updated));
+  };
+
+  const handleLockWeek = () => {
+    if (lockedWeeks.includes(currentWeekEnding)) {
+      alert("This payroll week is already finalized and locked!");
+      return;
+    }
+
+    const weekRoster = rosters[currentWeekEnding] || {};
+    const weekComments = rosterComments[currentWeekEnding] || {};
+    let missingComment = false;
+
+    employees.forEach(emp => {
+      const actual = calculations.parsedData.find(c => c.employeeId === emp.id)?.totalHrs || 0;
+      const rostered = weekRoster[emp.id] || 0;
+      const variance = actual - rostered;
+      if (Math.abs(variance) > 2.0 && !weekComments[emp.id]) {
+        missingComment = true;
+      }
+    });
+
+    if (missingComment) {
+      alert("Cannot finalize payroll! There are employee shift variances > 2 hours that require a manager comment in the Roster Comp. tab.");
+      return;
+    }
+
+    const currentBalances = { ...leaveBalances };
+    calculations.parsedData.forEach(c => {
+      const emp = employees.find(e => e.id === c.employeeId);
+      if (!emp || emp.status === 'Casual') return;
+
+      if (!currentBalances[c.employeeId]) {
+        currentBalances[c.employeeId] = { annual: 0, sick: 0 };
+      }
+
+      currentBalances[c.employeeId].sick = Math.max(0, currentBalances[c.employeeId].sick - c.sick);
+      currentBalances[c.employeeId].annual = Math.max(0, currentBalances[c.employeeId].annual - c.annual);
+
+      const productiveHours = Math.min(c.ord + c.c125 + c.c150 + c.night, 38);
+      const annualAccrual = productiveHours / 13;
+      const sickAccrual = productiveHours / 26;
+
+      currentBalances[c.employeeId].annual += annualAccrual;
+      currentBalances[c.employeeId].sick += sickAccrual;
+    });
+
+    setLeaveBalances(currentBalances);
+    db.saveLeaveBalances(currentBalances);
+
+    const newLocked = [...lockedWeeks, currentWeekEnding];
+    setLockedWeeks(newLocked);
+    localStorage.setItem('potr_locked_weeks', JSON.stringify(newLocked));
+
+    alert(`Payroll for week ending ${currentWeekEnding} has been successfully locked and finalized! Leave balances have been updated.`);
+  };
+
   // Load initial data
   useEffect(() => {
     setEmployees(db.getEmployees());
@@ -1481,6 +1578,9 @@ function App() {
     setRosters(db.getRosters());
     setAdjustments(db.getAdjustments());
     setCalcSettings(db.getCalculationSettings());
+    setLeaveBalances(db.getLeaveBalances());
+    const commentsData = localStorage.getItem('potr_roster_comments');
+    if (commentsData) setRosterComments(JSON.parse(commentsData));
   }, []);
   useIcons();
 
@@ -1488,6 +1588,7 @@ function App() {
   const calculations = useMemo(() => {
     const weekCards = timecards[currentWeekEnding] || [];
     const parsedData = [];
+    const leaveWarnings = [];
     let totalOrdHrs = 0;
     let totalOrdCost = 0;
     let total125Hrs = 0;
@@ -1609,6 +1710,31 @@ function App() {
           }
         }
       });
+
+      // Leave balance capping
+      const bal = leaveBalances[emp.id] || { annual: 0, sick: 0 };
+      const originalSick = sick;
+      const originalAnnual = annual;
+      
+      if (emp.status === 'Casual') {
+        if (sick > 0) {
+          sick = 0;
+          leaveWarnings.push(`${emp.fullName} (Casual) logged ${originalSick} hrs Sick Leave - Casuals are not entitled to paid leave.`);
+        }
+        if (annual > 0) {
+          annual = 0;
+          leaveWarnings.push(`${emp.fullName} (Casual) logged ${originalAnnual} hrs Annual Leave - Casuals are not entitled to paid leave.`);
+        }
+      } else {
+        if (sick > bal.sick) {
+          sick = bal.sick;
+          leaveWarnings.push(`${emp.fullName} requested ${originalSick} hrs Sick Leave, but only has ${bal.sick.toFixed(1)} hrs accrued. Paid leave capped at ${bal.sick.toFixed(1)} hrs.`);
+        }
+        if (annual > bal.annual) {
+          annual = bal.annual;
+          leaveWarnings.push(`${emp.fullName} requested ${originalAnnual} hrs Annual Leave, but only has ${bal.annual.toFixed(1)} hrs accrued. Paid leave capped at ${bal.annual.toFixed(1)} hrs.`);
+        }
+      }
 
       // Add laundry constraints (max 3 shifts)
       const laundryShifts = Math.min(laundryCount, 3);
@@ -1734,9 +1860,10 @@ function App() {
       totalSplitCost,
       totalLeaveLiabilityHours,
       totalLeaveLiabilityCost,
-      totalSuperannuationCost
+      totalSuperannuationCost,
+      leaveWarnings
     };
-  }, [employees, timecards, currentWeekEnding, calcSettings]);
+  }, [employees, timecards, currentWeekEnding, calcSettings, leaveBalances]);
 
   // Save actions handlers
   const handleSaveEmployees = newEmployeesList => {
@@ -1867,14 +1994,26 @@ function App() {
       setCalcSettings(val);
       db.saveCalculationSettings(val);
     },
-    adjustments: adjustments
+    adjustments: adjustments,
+    lockedWeeks: lockedWeeks,
+    onLockWeek: handleLockWeek,
+    currentWeekEnding: currentWeekEnding
   })), /*#__PURE__*/React.createElement("div", {
     className: `tab-panel ${activeTab === 'employees' ? 'active' : ''}`
   }, /*#__PURE__*/React.createElement(EmployeesView, {
     employees: employees,
     saveEmployees: handleSaveEmployees,
     selectedId: selectedEmployeeId,
-    setSelectedId: setSelectedEmployeeId
+    setSelectedId: setSelectedEmployeeId,
+    leaveBalances: leaveBalances,
+    saveLeaveBalances: (empId, balances) => {
+      const updated = {
+        ...leaveBalances,
+        [empId]: balances
+      };
+      setLeaveBalances(updated);
+      db.saveLeaveBalances(updated);
+    }
   })), /*#__PURE__*/React.createElement("div", {
     className: `tab-panel ${activeTab === 'timecards' ? 'active' : ''}`
   }, /*#__PURE__*/React.createElement(TimecardsView, {
@@ -1883,7 +2022,8 @@ function App() {
     weekEnding: currentWeekEnding,
     saveTimecard: handleSaveTimecard,
     selectedId: selectedEmployeeId,
-    setSelectedId: setSelectedEmployeeId
+    setSelectedId: setSelectedEmployeeId,
+    calcSettings: calcSettings
   })), /*#__PURE__*/React.createElement("div", {
     className: `tab-panel ${activeTab === 'rosters' ? 'active' : ''}`
   }, /*#__PURE__*/React.createElement(RosterComparisonView, {
@@ -1891,7 +2031,9 @@ function App() {
     weekEnding: currentWeekEnding,
     rosterValues: rosters[currentWeekEnding] || {},
     actualCalculations: calculations.parsedData,
-    saveRoster: handleSaveRoster
+    saveRoster: handleSaveRoster,
+    rosterComments: rosterComments[currentWeekEnding] || {},
+    saveRosterComment: handleSaveRosterComment
   })), /*#__PURE__*/React.createElement("div", {
     className: `tab-panel ${activeTab === 'sheets' ? 'active' : ''}`
   }, /*#__PURE__*/React.createElement(SheetsTabPanel, {
@@ -1932,7 +2074,10 @@ function DashboardView({
   calculations,
   settings,
   setSettings,
-  adjustments
+  adjustments,
+  lockedWeeks,
+  onLockWeek,
+  currentWeekEnding
 }) {
   const totalGross = calculations.parsedData.reduce((acc, curr) => acc + curr.gross, 0);
   const totalHours = calculations.parsedData.reduce((acc, curr) => acc + curr.totalHrs, 0);
@@ -1988,7 +2133,9 @@ function DashboardView({
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      gap: '12px'
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     style: {
@@ -2000,7 +2147,12 @@ function DashboardView({
       color: 'var(--gray-500)',
       fontSize: '13px'
     }
-  }, "Trading summary, compliance warnings and payroll metrics"))), /*#__PURE__*/React.createElement("div", {
+  }, "Trading summary, compliance warnings and payroll metrics")), /*#__PURE__*/React.createElement("button", {
+    className: `btn ${(lockedWeeks || []).includes(currentWeekEnding) ? 'btn-secondary' : 'btn-primary'}`,
+    disabled: (lockedWeeks || []).includes(currentWeekEnding),
+    onClick: onLockWeek,
+    style: { display: 'flex', alignItems: 'center', gap: '6px' }
+  }, /*#__PURE__*/React.createElement(SafeIcon, { name: (lockedWeeks || []).includes(currentWeekEnding) ? "lock" : "unlock" }), (lockedWeeks || []).includes(currentWeekEnding) ? "Locked & Finalized" : "Finalize & Lock Week")), /*#__PURE__*/React.createElement("div", {
     className: "glass-card dashboard-perf-inputs"
   }, /*#__PURE__*/React.createElement("div", {
     className: "form-group",
@@ -2115,7 +2267,18 @@ function DashboardView({
     }
   }, visaExpirations.map(emp => /*#__PURE__*/React.createElement("li", {
     key: emp.id
-  }, emp.fullName, " - Visa expires on ", emp.rightToWork.expiryDate))))), wagePercentToTrueSales > 36 && /*#__PURE__*/React.createElement("div", {
+  }, emp.fullName, " - Visa expires on ", emp.rightToWork.expiryDate))))), (calculations.leaveWarnings || []).length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "alert alert-warning"
+  }, /*#__PURE__*/React.createElement(SafeIcon, {
+    name: "shield-alert"
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, "Leave Entitlement Alerts:"), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      marginLeft: '20px',
+      marginTop: '6px'
+    }
+  }, (calculations.leaveWarnings || []).map((warn, idx) => /*#__PURE__*/React.createElement("li", {
+    key: idx
+  }, warn))))), wagePercentToTrueSales > 36 && /*#__PURE__*/React.createElement("div", {
     className: "alert alert-warning"
   }, /*#__PURE__*/React.createElement(SafeIcon, {
     name: "trending-up"
@@ -2135,7 +2298,9 @@ function EmployeesView({
   employees,
   saveEmployees,
   selectedId,
-  setSelectedId
+  setSelectedId,
+  leaveBalances,
+  saveLeaveBalances
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
@@ -2390,7 +2555,50 @@ function EmployeesView({
       ...editForm,
       tfn: e.target.value
     })
-  }))), /*#__PURE__*/React.createElement("h3", {
+  }))), editForm.status !== 'Casual' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontSize: '16px',
+      marginBottom: '16px',
+      borderBottom: '1px solid var(--beige)',
+      paddingBottom: '8px',
+      marginTop: '16px'
+    }
+  }, "Leave Ledger Balances (Hours)"), /*#__PURE__*/React.createElement("div", {
+    className: "form-grid",
+    style: {
+      marginBottom: '16px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/React.createElement("label", null, "Annual Leave Accrued (hrs)"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    className: "form-control",
+    disabled: !isEditing,
+    value: editForm.id && leaveBalances[editForm.id] ? leaveBalances[editForm.id].annual : 0,
+    onChange: e => {
+      const currentVal = leaveBalances[editForm.id] || { annual: 0, sick: 0 };
+      saveLeaveBalances(editForm.id, {
+        ...currentVal,
+        annual: parseFloat(e.target.value || 0)
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/React.createElement("label", null, "Sick Leave Accrued (hrs)"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    className: "form-control",
+    disabled: !isEditing,
+    value: editForm.id && leaveBalances[editForm.id] ? leaveBalances[editForm.id].sick : 0,
+    onChange: e => {
+      const currentVal = leaveBalances[editForm.id] || { annual: 0, sick: 0 };
+      saveLeaveBalances(editForm.id, {
+        ...currentVal,
+        sick: parseFloat(e.target.value || 0)
+      });
+    }
+  })))), /*#__PURE__*/React.createElement("h3", {
     style: {
       fontSize: '16px',
       marginBottom: '16px',
@@ -2582,7 +2790,8 @@ function TimecardsView({
   weekEnding,
   saveTimecard,
   selectedId,
-  setSelectedId
+  setSelectedId,
+  calcSettings
 }) {
   const selectedEmployee = employees.find(e => e.id === selectedId) || employees[0];
   const currentCard = timecards.find(c => c.employeeId === selectedId) || {
@@ -2691,6 +2900,7 @@ function TimecardsView({
     isOpen: showScanner,
     onClose: () => setShowScanner(false),
     employee: selectedEmployee,
+    calcSettings: calcSettings,
     onScanComplete: (scannedShifts) => {
       const shifts = {
         ...currentCard.shifts,
@@ -2915,7 +3125,9 @@ function RosterComparisonView({
   weekEnding,
   rosterValues,
   actualCalculations,
-  saveRoster
+  saveRoster,
+  rosterComments,
+  saveRosterComment
 }) {
   useIcons();
   return /*#__PURE__*/React.createElement("div", {
@@ -2935,18 +3147,19 @@ function RosterComparisonView({
       color: 'var(--gray-500)',
       fontSize: '12px'
     }
-  }, "Review worked hours discrepancies against the planned roster")), /*#__PURE__*/React.createElement("div", {
+  }, "Review worked hours discrepancies against the planned roster. Explanatory comments are required for any variance exceeding 2.0 hours.")), /*#__PURE__*/React.createElement("div", {
     className: "table-responsive"
   }, /*#__PURE__*/React.createElement("table", {
     className: "payroll-table"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Employee Name"), /*#__PURE__*/React.createElement("th", null, "Rostered Hours"), /*#__PURE__*/React.createElement("th", null, "Actual Hours Worked"), /*#__PURE__*/React.createElement("th", null, "Variance (hrs)"), /*#__PURE__*/React.createElement("th", null, "Compliance Status"))), /*#__PURE__*/React.createElement("tbody", null, employees.map(emp => {
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Employee Name"), /*#__PURE__*/React.createElement("th", null, "Rostered Hours"), /*#__PURE__*/React.createElement("th", null, "Actual Hours Worked"), /*#__PURE__*/React.createElement("th", null, "Variance (hrs)"), /*#__PURE__*/React.createElement("th", null, "Manager Variance Reason / Code"), /*#__PURE__*/React.createElement("th", null, "Compliance Status"))), /*#__PURE__*/React.createElement("tbody", null, employees.map(emp => {
     const actual = actualCalculations.find(c => c.employeeId === emp.id)?.totalHrs || 0;
     const rostered = rosterValues[emp.id] || 0;
     const variance = actual - rostered;
     const isDiscrepancy = Math.abs(variance) > 2.0;
+    const hasComment = !!rosterComments[emp.id];
     return /*#__PURE__*/React.createElement("tr", {
       key: emp.id,
-      className: isDiscrepancy ? 'comparison-warning' : 'comparison-normal'
+      className: isDiscrepancy ? (hasComment ? 'comparison-warning' : 'comparison-danger') : 'comparison-normal'
     }, /*#__PURE__*/React.createElement("td", {
       style: {
         fontWeight: 600
@@ -2962,9 +3175,45 @@ function RosterComparisonView({
       value: rosterValues[emp.id] || '',
       placeholder: "0",
       onChange: e => saveRoster(emp.id, e.target.value)
-    })), /*#__PURE__*/React.createElement("td", null, actual.toFixed(2)), /*#__PURE__*/React.createElement("td", null, variance > 0 ? `+${variance.toFixed(2)}` : variance.toFixed(2)), /*#__PURE__*/React.createElement("td", null, isDiscrepancy ? /*#__PURE__*/React.createElement("span", {
+    })), /*#__PURE__*/React.createElement("td", null, actual.toFixed(2)), /*#__PURE__*/React.createElement("td", {
       style: {
-        color: 'var(--warning)',
+        fontWeight: 700,
+        color: variance > 0 ? 'var(--danger)' : (variance < 0 ? 'var(--amber)' : 'inherit')
+      }
+    }, variance > 0 ? `+${variance.toFixed(2)}` : variance.toFixed(2)), /*#__PURE__*/React.createElement("td", null, Math.abs(variance) > 0.05 ? /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control",
+      style: {
+        padding: '4px 8px',
+        fontSize: '12px',
+        width: '250px',
+        borderColor: (isDiscrepancy && !hasComment) ? 'var(--danger)' : 'var(--beige-dark)'
+      },
+      value: rosterComments[emp.id] || '',
+      placeholder: isDiscrepancy ? "Required: explain > 2h variance" : "Enter comment",
+      onChange: e => saveRosterComment(emp.id, e.target.value)
+    }) : /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: 'var(--gray-500)',
+        fontStyle: 'italic',
+        fontSize: '11px'
+      }
+    }, "No variance")), /*#__PURE__*/React.createElement("td", null, isDiscrepancy ? (hasComment ? /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: 'var(--amber)',
+        fontWeight: 700,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px'
+      }
+    }, /*#__PURE__*/React.createElement(SafeIcon, {
+      name: "check-check",
+      style: {
+        width: '14px'
+      }
+    }), " Audited Variance") : /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: 'var(--danger)',
         fontWeight: 700,
         display: 'flex',
         alignItems: 'center',
@@ -2975,7 +3224,7 @@ function RosterComparisonView({
       style: {
         width: '14px'
       }
-    }), " Variance Alert") : /*#__PURE__*/React.createElement("span", {
+    }), " Comment Required")) : /*#__PURE__*/React.createElement("span", {
       style: {
         color: 'var(--success)',
         fontWeight: 600
@@ -3006,6 +3255,187 @@ function SheetsTabPanel({
   };
   const handlePrint = () => {
     window.print();
+  };
+  const getShiftDateStr = (dayKey) => {
+    const weDate = new Date(weekEnding);
+    const offsets = {
+      'tue': -6,
+      'wed': -5,
+      'thu': -4,
+      'fri': -3,
+      'sat': -2,
+      'sun': -1,
+      'mon': 0
+    };
+    const offset = offsets[dayKey] || 0;
+    const shiftDate = new Date(weDate.getTime() + offset * 24 * 60 * 60 * 1000);
+    const yyyy = shiftDate.getFullYear();
+    const mm = String(shiftDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(shiftDate.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+  const handleExportXero = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Employee Name,Date,Earnings Rate,Number Of Hours\r\n";
+    
+    employees.forEach(emp => {
+      const tc = db.getTimecards();
+      const weekCards = tc[weekEnding] || [];
+      const card = weekCards.find(c => c.employeeId === emp.id) || { shifts: {} };
+      const days = ['tue', 'wed', 'thu', 'fri', 'sat', 'sun', 'mon'];
+      
+      days.forEach(day => {
+        const shift = card.shifts[day];
+        if (shift && shift.worked) {
+          const dateStr = getShiftDateStr(day);
+          let rateType = "Ordinary Hours";
+          if (shift.publicHoliday) rateType = "Public Holiday";
+          else if (day === 'sun') rateType = "Sunday Penalties";
+          else if (day === 'sat') rateType = "Saturday Penalties";
+          else if (shift.supervisor) rateType = "Supervisor Allowance";
+          else if (shift.splitShift) rateType = "Split Shift Ordinary";
+          
+          const start = new Date(`2000-01-01T${shift.startTime}`);
+          let end = new Date(`2000-01-01T${shift.endTime}`);
+          if (end < start) end = new Date(`2000-01-02T${shift.endTime}`);
+          const diffMs = end - start;
+          const breakMin = shift.breakMinutes === undefined ? 30 : shift.breakMinutes;
+          const hours = Math.max(0, (diffMs / (1000 * 60 * 60)) - (breakMin / 60));
+          
+          csvContent += `"${emp.fullName}",${dateStr},"${rateType}",${hours.toFixed(2)}\r\n`;
+        }
+      });
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `POTR_Xero_Timesheet_${weekEnding}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  const handleExportMyob = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Co./Last Name,First Name,Card ID,Date,Activity ID,Hours\r\n";
+
+    employees.forEach(emp => {
+      const tc = db.getTimecards();
+      const weekCards = tc[weekEnding] || [];
+      const card = weekCards.find(c => c.employeeId === emp.id) || { shifts: {} };
+      const days = ['tue', 'wed', 'thu', 'fri', 'sat', 'sun', 'mon'];
+      const names = emp.fullName.split(' ');
+      const lastName = names[names.length - 1] || "";
+      const firstName = names.slice(0, -1).join(' ') || "";
+
+      days.forEach(day => {
+        const shift = card.shifts[day];
+        if (shift && shift.worked) {
+          const dateStr = getShiftDateStr(day);
+          let activity = "ORD";
+          if (shift.publicHoliday) activity = "PH";
+          else if (day === 'sun') activity = "SUN";
+          else if (day === 'sat') activity = "SAT";
+          else if (shift.supervisor) activity = "SUP";
+          
+          const start = new Date(`2000-01-01T${shift.startTime}`);
+          let end = new Date(`2000-01-01T${shift.endTime}`);
+          if (end < start) end = new Date(`2000-01-02T${shift.endTime}`);
+          const diffMs = end - start;
+          const breakMin = shift.breakMinutes === undefined ? 30 : shift.breakMinutes;
+          const hours = Math.max(0, (diffMs / (1000 * 60 * 60)) - (breakMin / 60));
+
+          csvContent += `"${lastName}","${firstName}","EMP${emp.id}","${dateStr}","${activity}",${hours.toFixed(2)}\r\n`;
+        }
+      });
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `POTR_MYOB_Timesheet_${weekEnding}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  const generateAbaFile = () => {
+    const restBsb = (calcSettings.restaurantBsb || "062-000").replace("-", "");
+    const restAccount = (calcSettings.restaurantAccount || "123456789").padStart(9, "0");
+    const restName = (calcSettings.restaurantName || "POTR NORTHMEAD").padEnd(16, " ");
+    const apca = (calcSettings.apcaNumber || "123456").padStart(6, "0");
+    const bankName = (calcSettings.bankName || "CBA").padEnd(3, " ");
+    const lodgement = "POTR PAYROLL".padEnd(18, " ");
+    
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yy = String(today.getFullYear()).slice(-2);
+    const dateStr = dd + mm + yy;
+
+    let lines = [];
+    
+    let r0 = "0";
+    r0 += "".padEnd(17, " ");
+    r0 += "01";
+    r0 += bankName;
+    r0 += "".padEnd(7, " ");
+    r0 += "PANCAKES ON THE ROCKS".padEnd(26, " ");
+    r0 += apca;
+    r0 += "PAYROLL".padEnd(12, " ");
+    r0 += dateStr;
+    r0 += "".padEnd(40, " ");
+    lines.push(r0);
+
+    let totalCents = 0;
+    let recordCount = 0;
+
+    calculations.parsedData.forEach(c => {
+      const emp = employees.find(e => e.id === c.employeeId);
+      if (!emp) return;
+      const bsb = (emp.bankDetails?.bsb || "012-345").replace("-", "");
+      const acct = (emp.bankDetails?.accountNumber || "1234567").padStart(9, "0");
+      const name = (emp.bankDetails?.accountName || emp.fullName).padEnd(32, " ");
+      
+      const cents = Math.round(c.gross * 100);
+      if (cents <= 0) return;
+
+      totalCents += cents;
+      recordCount++;
+
+      let r1 = "1";
+      r1 += bsb;
+      r1 += acct;
+      r1 += " ";
+      r1 += "53";
+      r1 += String(cents).padStart(10, "0");
+      r1 += name;
+      r1 += lodgement;
+      r1 += restBsb;
+      r1 += restAccount;
+      r1 += restName;
+      r1 += "00000000";
+      lines.push(r1);
+    });
+
+    let r7 = "7";
+    r7 += "999-999";
+    r7 += "".padEnd(12, " ");
+    r7 += String(totalCents).padStart(10, "0");
+    r7 += String(totalCents).padStart(10, "0");
+    r7 += "0000000000";
+    r7 += "".padEnd(24, " ");
+    r7 += String(recordCount).padStart(6, "0");
+    r7 += "".padEnd(40, " ");
+    lines.push(r7);
+
+    const fileContent = lines.join("\r\n");
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `POTR_Payroll_${weekEnding}.aba`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
   const handleExportCsv = () => {
     let csvContent = "data:text/csv;charset=utf-8,";
@@ -3087,7 +3517,7 @@ function SheetsTabPanel({
     className: `sheets-tab-item ${activeSheetTab === 'adjustments' ? 'active' : ''}`,
     onClick: () => setActiveSheetTab('adjustments')
   }, "Adjustment Sheet")), /*#__PURE__*/React.createElement("div", {
-    style: { display: 'flex', gap: '8px' }
+    style: { display: 'flex', gap: '8px', flexWrap: 'wrap' }
   }, /*#__PURE__*/React.createElement("button", {
     className: "btn btn-secondary btn-sm",
     onClick: handlePrint
@@ -3095,6 +3525,17 @@ function SheetsTabPanel({
     className: "btn btn-secondary btn-sm",
     onClick: handleExportCsv
   }, /*#__PURE__*/React.createElement(SafeIcon, { name: "download" }), " Export CSV"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-secondary btn-sm",
+    onClick: handleExportXero,
+    style: { backgroundColor: '#13B5EA', color: 'white', fontWeight: 600 }
+  }, "Xero Export"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-secondary btn-sm",
+    onClick: handleExportMyob,
+    style: { backgroundColor: '#613E97', color: 'white', fontWeight: 600 }
+  }, "MYOB Export"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary btn-sm",
+    onClick: generateAbaFile
+  }, /*#__PURE__*/React.createElement(SafeIcon, { name: "dollar-sign" }), " Download ABA Bank File"), /*#__PURE__*/React.createElement("button", {
     className: "btn btn-dark btn-sm",
     onClick: handleEmailGenerator
   }, /*#__PURE__*/React.createElement(SafeIcon, { name: "mail" }), " Email to Admin"))), /*#__PURE__*/React.createElement("div", {
@@ -3781,6 +4222,12 @@ function SettingsView({
     "Guest Assistant - Grade 3": 28.12,
     "Shift Supervisor - Grade 3": 37.45
   });
+  const [openaiApiKey, setOpenaiApiKey] = useState(settings.openaiApiKey || '');
+  const [restaurantBsb, setRestaurantBsb] = useState(settings.restaurantBsb || '062-000');
+  const [restaurantAccount, setRestaurantAccount] = useState(settings.restaurantAccount || '123456789');
+  const [restaurantName, setRestaurantName] = useState(settings.restaurantName || 'POTR NORTHMEAD');
+  const [apcaNumber, setApcaNumber] = useState(settings.apcaNumber || '123456');
+  const [bankName, setBankName] = useState(settings.bankName || 'CBA');
 
   const handleRateChange = (key, val) => {
     setRates({
@@ -3798,7 +4245,13 @@ function SettingsView({
       laundryRate: parseFloat(laundryRate || 0),
       supervisorRate: parseFloat(supervisorRate || 0),
       splitRate: parseFloat(splitRate || 0),
-      baseRates: rates
+      baseRates: rates,
+      openaiApiKey,
+      restaurantBsb,
+      restaurantAccount,
+      restaurantName,
+      apcaNumber,
+      bankName
     };
     setSettings(newSettings);
 
@@ -3879,6 +4332,61 @@ function SettingsView({
           })
         )
       )
+    ),
+    React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' } },
+      React.createElement("h3", { style: { fontSize: '16px', borderBottom: '1px solid var(--beige)', paddingBottom: '8px' } }, "API & Bank Details"),
+      React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "OpenAI API Key (Vision OCR)"),
+        React.createElement("input", {
+          type: "password",
+          className: "form-control",
+          placeholder: "sk-...",
+          value: openaiApiKey,
+          onChange: e => setOpenaiApiKey(e.target.value)
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Restaurant Bank BSB"),
+        React.createElement("input", {
+          type: "text",
+          className: "form-control",
+          placeholder: "062-000",
+          value: restaurantBsb,
+          onChange: e => setRestaurantBsb(e.target.value)
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Restaurant Bank Account"),
+        React.createElement("input", {
+          type: "text",
+          className: "form-control",
+          placeholder: "123456789",
+          value: restaurantAccount,
+          onChange: e => setRestaurantAccount(e.target.value)
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Restaurant Account Name"),
+        React.createElement("input", {
+          type: "text",
+          className: "form-control",
+          value: restaurantName,
+          onChange: e => setRestaurantName(e.target.value)
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "APCA Identification (6-digit ID)"),
+        React.createElement("input", {
+          type: "text",
+          className: "form-control",
+          value: apcaNumber,
+          onChange: e => setApcaNumber(e.target.value)
+        })
+      ), React.createElement("div", { className: "form-group" },
+        React.createElement("label", null, "Bank Code abbreviation (e.g. CBA, WBC)"),
+        React.createElement("input", {
+          type: "text",
+          className: "form-control",
+          value: bankName,
+          onChange: e => setBankName(e.target.value)
+        })
+      )
     )
   ), React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end', marginTop: '12px' } },
     React.createElement("button", { className: "btn btn-primary", onClick: handleSave }, "Save Settings & Sync Employees")
@@ -3890,6 +4398,7 @@ function OcrScannerModal({
   isOpen,
   onClose,
   employee,
+  calcSettings,
   onScanComplete
 }) {
   if (!isOpen) return null;
@@ -3999,10 +4508,101 @@ function OcrScannerModal({
   };
 
   const runOcrProcessing = () => {
+    const apiKey = calcSettings?.openaiApiKey;
+    if (apiKey) {
+      setScanState('scanning');
+      setLogs([]);
+      addLog("Sending image to OpenAI Vision API...");
+
+      const executeRealOcr = async (base64Data) => {
+        try {
+          addLog("Calling GPT-4o-mini Vision model for OCR character analysis...");
+          const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+              model: "gpt-4o-mini",
+              messages: [
+                {
+                  role: "system",
+                  content: "You are an expert handwriting transcription assistant for Pancakes On The Rocks payroll. Analyze the timecard image and return ONLY a valid JSON object matching the requested schema."
+                },
+                {
+                  role: "user",
+                  content: [
+                    {
+                      type: "text",
+                      text: "Extract the weekly timecard shifts. The pay cycle is Tuesday to Monday. For each day (tue, wed, thu, fri, sat, sun, mon), extract if they worked, the start time (format HH:MM), the end time (format HH:MM), the break in minutes, and if they worked as a supervisor (ticked or marked) or split shift. Return a JSON object with this exact structure:\n{\n  \"shifts\": {\n    \"tue\": { \"worked\": true, \"startTime\": \"09:00\", \"endTime\": \"17:00\", \"breakMinutes\": 30, \"supervisor\": false, \"splitShift\": false },\n    \"wed\": { \"worked\": false },\n    ...\n  }\n}"
+                    },
+                    {
+                      type: "image_url",
+                      image_url: {
+                        url: base64Data
+                      }
+                    }
+                  ]
+                }
+              ],
+              response_format: { type: "json_object" }
+            })
+          });
+
+          if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(`OpenAI API responded with code ${response.status}: ${errText}`);
+          }
+
+          const result = await response.json();
+          addLog("OpenAI parsing successful!");
+
+          const content = result.choices[0].message.content;
+          const parsed = JSON.parse(content);
+          if (parsed && parsed.shifts) {
+            setScannedShifts(parsed.shifts);
+            setScanState('complete');
+            addLog("OCR completed successfully with high confidence.");
+          } else {
+            throw new Error("Invalid JSON structure returned by model.");
+          }
+        } catch (err) {
+          addLog("OCR API Error: " + err.message);
+          addLog("Falling back to simulated OCR processing...");
+          runSimulatedOcr();
+        }
+      };
+
+      if (previewImage.startsWith("data:image/")) {
+        executeRealOcr(previewImage);
+      } else {
+        addLog("Converting sample image to base64 for API transmission...");
+        fetch(previewImage)
+          .then(res => res.blob())
+          .then(blob => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              executeRealOcr(reader.result);
+            };
+            reader.readAsDataURL(blob);
+          })
+          .catch(err => {
+            addLog("Failed to convert image: " + err.message);
+            addLog("Falling back to local preloaded parser...");
+            runSimulatedOcr();
+          });
+      }
+    } else {
+      runSimulatedOcr();
+    }
+  };
+
+  const runSimulatedOcr = () => {
     setScanState('scanning');
     setLogs([]);
     addLog("Initializing Neural Handwriting OCR Engine...");
-    
+
     const steps = [
       { delay: 800, log: "Aligning text fields and bounding grids..." },
       { delay: 1600, log: `Analyzing handwriting content for employee: ${employee.fullName}...` },
