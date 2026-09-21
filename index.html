@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POTR Payroll - Pancakes On The Rocks</title>
+    
+    <!-- Favicon & Touch Icon -->
+    <link rel="icon" type="image/png" href="./potr_logo.png">
+    <link rel="apple-touch-icon" href="./potr_logo.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4A2A18">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Lucide Icons -->
+    <script src="vendor/lucide.min.js"></script>
+
+    <!-- React and ReactDOM UMD -->
+    <script src="vendor/react.production.min.js"></script>
+    <script src="vendor/react-dom.production.min.js"></script>
+
+    <!-- SheetJS XLSX Library -->
+    <script src="vendor/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <!-- Application Script -->
+    <script src="app.js?v=5.0.0" defer></script>
+
+    <!-- Clear Stale Cache & Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        if (window.caches) {
+            caches.keys().then(names => {
+                for (let name of names) {
+                    caches.delete(name);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
