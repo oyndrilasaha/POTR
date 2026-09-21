@@ -8928,6 +8928,33 @@ function App() {
   const [activeSheetTab, setActiveSheetTab] = useState('calculation');
   const [kioskMode, setKioskMode] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isInstallable, setIsInstallable] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setIsInstallable(true);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  }, []);
+
+  const handleInstallApp = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('POTR Payroll installed as App');
+        }
+        setDeferredPrompt(null);
+        setIsInstallable(false);
+      });
+    } else {
+      alert('To install POTR Payroll on your device:\n\n• Chrome/Edge (Desktop): Click the Install icon in the browser address bar.\n• Safari (iOS): Tap Share -> "Add to Home Screen".\n• Chrome (Android): Tap menu (3 dots) -> "Install App".');
+    }
+  };
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
   const [weeklyMetrics, setWeeklyMetrics] = useState(() => {
@@ -9570,6 +9597,12 @@ function App() {
           title: "Toggle Light/Dark Theme",
           style: { marginLeft: '12px' }
         }, /*#__PURE__*/React.createElement(SafeIcon, { name: darkMode ? "sun" : "moon" })), 
+        /*#__PURE__*/React.createElement("button", {
+          className: "btn btn-sm",
+          style: { marginLeft: '12px', display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--amber)', color: '#4A2A18', fontWeight: 700, border: 'none' },
+          onClick: handleInstallApp,
+          title: "Install POTR Payroll App"
+        }, /*#__PURE__*/React.createElement(SafeIcon, { name: "download" }), " Install App"),
         /*#__PURE__*/React.createElement("button", {
           className: "btn btn-dark btn-sm",
           style: { marginLeft: '12px', display: 'flex', alignItems: 'center', gap: '6px' },

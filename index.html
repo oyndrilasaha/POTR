@@ -14,6 +14,12 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4A2A18">
 
+    <!-- Mobile & PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="POTR Payroll">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,20 +47,17 @@
     <!-- Application Script -->
     <script src="app.js?v=5.0.0" defer></script>
 
-    <!-- Clear Stale Cache & Service Worker -->
+    <!-- Register PWA Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-                for (let registration of registrations) {
-                    registration.unregister();
-                }
-            });
-        }
-        if (window.caches) {
-            caches.keys().then(names => {
-                for (let name of names) {
-                    caches.delete(name);
-                }
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js?v=5.0.0')
+                    .then(function(reg) {
+                        console.log('POTR Payroll Service Worker registered successfully:', reg.scope);
+                    })
+                    .catch(function(err) {
+                        console.error('Service Worker registration failed:', err);
+                    });
             });
         }
     </script>
